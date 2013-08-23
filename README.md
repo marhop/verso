@@ -12,6 +12,8 @@ editing EXIF or IPTC metadata!)
 Verso is written in Perl and features a Gtk3 GUI. Metadata editing is based on
 [Phil Harvey's ExifTool] [ET].
 
+![Verso screenshot](screenshot.jpg)
+
 [DC]: http://dublincore.org
 [XMP]: https://en.wikipedia.org/wiki/Extensible_Metadata_Platform
 [ET]: http://www.sno.phy.queensu.ca/~phil/exiftool/
