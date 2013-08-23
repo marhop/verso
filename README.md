@@ -1,4 +1,6 @@
-# Verso - a simple XMP metadata editor for JPEG images
+# Verso
+
+## A simple XMP metadata editor for JPEG images
 
 Verso is a tool for editing image metadata embedded in JPEG files. Metadata
 can be used e.g. to describe the image's content, the depicted persons, items
