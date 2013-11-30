@@ -202,14 +202,8 @@ $paned->set_margin_right(5);
 $paned->set_position(440);
 $grid1->attach($paned, 1, 2, 1, 1);
 
-my $scrolled = Gtk3::ScrolledWindow->new(100, 100);
-$scrolled->set_hexpand(1);
-$scrolled->set_vexpand(1);
-$scrolled->set_margin_bottom(10);
-$paned->pack1($scrolled, 1, 1);
-
 my $image = Gtk3::Image->new();
-$scrolled->add_with_viewport($image);
+$paned->pack1($image, 1, 1);
 
 my $grid2 = Gtk3::Grid->new();
 $grid2->set_margin_top(10);
@@ -493,7 +487,11 @@ sub load_file {
 }
 
 sub load_image {
-    $image->set_from_file($files[$index]);
+    my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
+    my $width  = 200; # TODO Get widget width.
+    my $height = 200; # TODO Get widget height.
+    my $scaled = $pixbuf->scale_simple($width, $height, 'GDK_INTERP_HYPER');
+    $image->set_from_pixbuf($scaled);
 
     return;
 }
