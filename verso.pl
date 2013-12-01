@@ -50,6 +50,9 @@ $window->add($grid1);
 
 ## Build GUI: menubar. Also keyboard shortcuts. ##
 
+# Hex representations of key values (like 0x006f for the 'o' key) can be found
+# in /usr/include/X11/keysymdef.h!
+
 my $menubar = Gtk3::MenuBar->new();
 $grid1->attach($menubar, 1, 1, 1, 1);
 
@@ -177,6 +180,26 @@ $menu_item_file_last->add_accelerator(
         0x006c, # 'GDK_l' did not work
         'GDK_CONTROL_MASK',
         'GTK_ACCEL_VISIBLE'
+);
+
+my $menu_item_view = Gtk3::MenuItem->new_with_mnemonic('_View');
+$menubar->append($menu_item_view);
+
+my $menu_view = Gtk3::Menu->new();
+$menu_item_view->set_submenu($menu_view);
+
+my $menu_item_view_fullscreen
+    = Gtk3::MenuItem->new_with_mnemonic('Toggle _Fullscreen');
+$menu_view->append($menu_item_view_fullscreen);
+$menu_item_view_fullscreen->signal_connect(
+    'activate' => \&on_menu_view_fullscreen_activate
+);
+$menu_item_view_fullscreen->add_accelerator(
+    'activate',
+    $accelerators,
+    0xffc8, # 'GDK_F11' did not work
+    'GDK_CONTROL_MASK', # TODO How can we use only F11, without Ctrl?
+    'GTK_ACCEL_VISIBLE'
 );
 
 my $menu_item_help = Gtk3::MenuItem->new_with_mnemonic('_Help');
@@ -386,6 +409,12 @@ sub on_menu_file_last_activate {
     }
 
     return;
+}
+
+sub on_menu_view_fullscreen_activate {
+    state $fullscreen = 0;
+    $fullscreen ? $window->unfullscreen() : $window->fullscreen();
+    $fullscreen = !$fullscreen;
 }
 
 sub on_menu_help_about_activate {
