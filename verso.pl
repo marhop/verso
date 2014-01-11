@@ -490,8 +490,9 @@ sub load_file {
 
 sub load_image {
     my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
-    my ($win_w, $win_h) = $window->get_size();
-    my $scaled = scale_pixbuf($pixbuf, $win_w, $win_h);
+    my $img_w = $image->get_allocation()->{width};
+    my $img_h = $image->get_allocation()->{height};
+    my $scaled = scale_pixbuf($pixbuf, $img_w, $img_h);
     $image->set_from_pixbuf($scaled);
 
     return;
