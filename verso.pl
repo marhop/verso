@@ -200,7 +200,6 @@ $paned->set_margin_top(5);
 $paned->set_margin_bottom(5);
 $paned->set_margin_left(5);
 $paned->set_margin_right(5);
-#$paned->set_position(440);
 $paned->set_hexpand(1);
 $paned->set_vexpand(1);
 $grid1->attach($paned, 1, 2, 1, 1);
@@ -212,7 +211,7 @@ my $grid2 = Gtk3::Grid->new();
 $grid2->set_margin_top(10);
 $grid2->set_row_spacing(5);
 $grid2->set_column_spacing(5);
-$paned->pack2($grid2, 1, 1);
+$paned->pack2($grid2, 0, 0);
 
 
 ## Build GUI: workspace pt. 2 (metadata entry fields). ##
@@ -307,11 +306,12 @@ my $next_button = Gtk3::Button->new('Next');
 $next_button->signal_connect('clicked' => \&on_next_button_clicked);
 $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
 
+$window->show_all();
+
 if (@ARGV) {
     load_file(shift);
 }
 
-$window->show_all();
 Gtk3::main();
 
 
