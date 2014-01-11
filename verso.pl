@@ -27,6 +27,7 @@ use Encode qw(decode);
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
+use List::Util qw(min);
 use List::MoreUtils qw(first_index);
 
 
@@ -199,7 +200,9 @@ $paned->set_margin_top(5);
 $paned->set_margin_bottom(5);
 $paned->set_margin_left(5);
 $paned->set_margin_right(5);
-$paned->set_position(440);
+#$paned->set_position(440);
+$paned->set_hexpand(1);
+$paned->set_vexpand(1);
 $grid1->attach($paned, 1, 2, 1, 1);
 
 my $image = Gtk3::Image->new();
@@ -303,7 +306,6 @@ $grid2->attach($previous_button, 4, $button_line_offset, 1, 1);
 my $next_button = Gtk3::Button->new('Next');
 $next_button->signal_connect('clicked' => \&on_next_button_clicked);
 $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
-
 
 if (@ARGV) {
     load_file(shift);
@@ -488,12 +490,30 @@ sub load_file {
 
 sub load_image {
     my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
-    my $width  = 200; # TODO Get widget width.
-    my $height = 200; # TODO Get widget height.
-    my $scaled = $pixbuf->scale_simple($width, $height, 'GDK_INTERP_HYPER');
+    my ($win_w, $win_h) = $window->get_size();
+    my $scaled = scale_pixbuf($pixbuf, $win_w, $win_h);
     $image->set_from_pixbuf($scaled);
 
     return;
+}
+
+sub scale_pixbuf {
+    my ($pixbuf, $max_w, $max_h) = @_;
+    my $pixb_w = $pixbuf->get_width();
+    my $pixb_h = $pixbuf->get_height();
+
+    if (($pixb_w > $max_w) || ($pixb_h > $max_h)) {
+        my $sc_factor_w = $max_w / $pixb_w;
+        my $sc_factor_h = $max_h / $pixb_h;
+        # Choose the smallest scaling factor, so the longest side will fit.
+        my $sc_factor = min $sc_factor_w, $sc_factor_h;
+        my $sc_w = int($pixb_w * $sc_factor);
+        my $sc_h = int($pixb_h * $sc_factor);
+        my $scaled = $pixbuf->scale_simple($sc_w, $sc_h, 'GDK_INTERP_HYPER');
+        return $scaled;
+    }
+
+    return $pixbuf;
 }
 
 sub load_metadata {
