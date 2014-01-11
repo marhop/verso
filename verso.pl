@@ -2,7 +2,7 @@
 
 # Verso - a simple XMP metadata editor for JPEG images
 #
-# Copyright 2013 Martin Hoppenheit <martin@hoppenheit.info>
+# Copyright 2013, 2014 Martin Hoppenheit <martin@hoppenheit.info>
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -423,7 +423,7 @@ sub on_menu_help_about_activate {
     $dialog->set_comments('A simple XMP metadata editor for JPEG images.');
     # $dialog->set_website();
     # $dialog->set_version();
-    $dialog->set_copyright('Copyright 2013 Martin Hoppenheit');
+    $dialog->set_copyright('Copyright 2013, 2014 Martin Hoppenheit');
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
 
     $dialog->run();

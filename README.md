@@ -63,7 +63,7 @@ photography.
 
 ## License
 
-Copyright 2013 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013, 2014 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
