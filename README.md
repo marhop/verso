@@ -50,9 +50,6 @@ photography.
 
 ## TODO
 
-* Figure out how to scale and maybe auto rotate images in Gtk3 so they fit in
-  the program window. (If anybody knows how to do this - please let me know!)
-
 * Enable the file opening menu.
 
 * Make metadata fields (and other stuff) configurable via a config file and/or
