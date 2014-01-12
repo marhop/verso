@@ -205,7 +205,7 @@ $paned->set_vexpand(1);
 $grid1->attach($paned, 1, 2, 1, 1);
 
 my $image = Gtk3::Image->new();
-$paned->pack1($image, 1, 1);
+$paned->pack1($image, 1, 0);
 
 my $grid2 = Gtk3::Grid->new();
 $grid2->set_margin_top(10);
