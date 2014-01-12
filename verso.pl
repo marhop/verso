@@ -27,6 +27,7 @@ use Encode qw(decode);
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
+use List::Util qw(min);
 use List::MoreUtils qw(first_index);
 
 
@@ -40,8 +41,8 @@ my $exiftool = Image::ExifTool->new();
 
 my $window = Gtk3::Window->new('toplevel');
 $window->set_title('Verso');
-$window->set_default_size(700, 600);
-$window->maximize();
+$window->set_default_size(500, 500);
+#$window->maximize();
 $window->signal_connect('delete-event' => sub { Gtk3::main_quit });
 
 my $grid1 = Gtk3::Grid->new();
@@ -222,10 +223,11 @@ $paned->set_margin_top(5);
 $paned->set_margin_bottom(5);
 $paned->set_margin_left(5);
 $paned->set_margin_right(5);
-$paned->set_position(440);
+$paned->set_hexpand(1);
+$paned->set_vexpand(1);
 $grid1->attach($paned, 1, 2, 1, 1);
 
-my $scrolled = Gtk3::ScrolledWindow->new(100, 100);
+my $scrolled = Gtk3::ScrolledWindow->new();
 $scrolled->set_hexpand(1);
 $scrolled->set_vexpand(1);
 $scrolled->set_margin_bottom(10);
@@ -238,7 +240,7 @@ my $grid2 = Gtk3::Grid->new();
 $grid2->set_margin_top(10);
 $grid2->set_row_spacing(5);
 $grid2->set_column_spacing(5);
-$paned->pack2($grid2, 1, 1);
+$paned->pack2($grid2, 0, 0);
 
 
 ## Build GUI: workspace pt. 2 (metadata entry fields). ##
@@ -333,12 +335,12 @@ my $next_button = Gtk3::Button->new('Next');
 $next_button->signal_connect('clicked' => \&on_next_button_clicked);
 $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
 
+$window->show_all();
 
 if (@ARGV) {
     load_file(shift);
 }
 
-$window->show_all();
 Gtk3::main();
 
 
@@ -522,9 +524,32 @@ sub load_file {
 }
 
 sub load_image {
-    $image->set_from_file($files[$index]);
+    my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
+    my $max_w = $scrolled->get_allocation()->{width};
+    my $max_h = $scrolled->get_allocation()->{height};
+    my $scaled = scale_pixbuf($pixbuf, $max_w, $max_h);
+    $image->set_from_pixbuf($scaled);
 
     return;
+}
+
+sub scale_pixbuf {
+    my ($pixbuf, $max_w, $max_h) = @_;
+    my $pixb_w = $pixbuf->get_width();
+    my $pixb_h = $pixbuf->get_height();
+
+    if (($pixb_w > $max_w) || ($pixb_h > $max_h)) {
+        my $sc_factor_w = $max_w / $pixb_w;
+        my $sc_factor_h = $max_h / $pixb_h;
+        # Choose the smallest scaling factor, so the longest side will fit.
+        my $sc_factor = min $sc_factor_w, $sc_factor_h;
+        my $sc_w = int($pixb_w * $sc_factor);
+        my $sc_h = int($pixb_h * $sc_factor);
+        my $scaled = $pixbuf->scale_simple($sc_w, $sc_h, 'GDK_INTERP_HYPER');
+        return $scaled;
+    }
+
+    return $pixbuf;
 }
 
 sub load_metadata {
