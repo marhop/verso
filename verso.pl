@@ -41,8 +41,8 @@ my $exiftool = Image::ExifTool->new();
 
 my $window = Gtk3::Window->new('toplevel');
 $window->set_title('Verso');
-$window->set_default_size(700, 600);
-$window->maximize();
+$window->set_default_size(500, 500);
+#$window->maximize();
 $window->signal_connect('delete-event' => sub { Gtk3::main_quit });
 
 my $grid1 = Gtk3::Grid->new();
