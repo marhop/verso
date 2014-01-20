@@ -40,10 +40,45 @@ my $exiftool = Image::ExifTool->new();
 
 ## Load config. ##
 
+my %default_config = (
+    field => [
+        {
+            tag      => 'XMP-dc:Description',
+            label    => 'Description',
+            toolt    => 'Describe the content and context of the image.',
+            editable => 'yes',
+        },
+        {
+            tag      => 'XMP-dc:Date',
+            label    => 'Date',
+            tooltip  => 'Provide the date and time the image was taken.',
+            editable => 'yes',
+        },
+        {
+            tag      => 'XMP-dc:Creator',
+            label    => 'Creator',
+            tooltip  => 'Name the photographer who created the image.',
+            editable => 'yes',
+        },
+        {
+            tag      => 'XMP-dc:Rights',
+            label    => 'Rights',
+            tooltip  => 'State intellectual property rights or licenses.',
+            editable => 'yes',
+        },
+    ],
+    windowwidth  => 500,
+    windowheight => 500,
+    maximize     => 'no',
+    fullscreen   => 'no',
+    viewer       => 'eog',
+);
+
 # TODO /home/user/.verso.conf -> /etc/verso.conf -> Default.
 my $configfile = 'verso.conf';
 my $conf = Config::General->new(
     -ConfigFile => $configfile,
+    #-DefaultConfig => \%default_config,
     -AutoTrue => 1,
 );
 my %config = $conf->getall();
