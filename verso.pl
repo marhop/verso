@@ -23,6 +23,7 @@ use 5.010;
 use utf8;
 use Image::ExifTool;
 use Gtk3 -init;
+use Config::General;
 use Encode qw(decode);
 use File::Basename;
 use File::Temp qw(tempfile);
@@ -35,6 +36,17 @@ my $directory;  # full path of current directory (including ending '/')
 my @files;      # full paths of all files in the current directory
 my $index;      # index of current file in @files
 my $exiftool = Image::ExifTool->new();
+
+
+## Load config. ##
+
+# TODO /home/user/.verso.conf -> /etc/verso.conf -> Default.
+my $configfile = 'verso.conf';
+my $conf = Config::General->new(
+    -ConfigFile => $configfile,
+    -AutoTrue => 1,
+);
+my %config = $conf->getall();
 
 
 ## Build GUI: basic stuff. ##
