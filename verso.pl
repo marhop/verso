@@ -426,7 +426,7 @@ sub on_menu_file_undo_activate {
 }
 
 sub on_menu_file_view_external_activate {
-    system "eog $files[$index]";
+    system "$config{viewer} $files[$index]";
 
     return;
 }
