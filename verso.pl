@@ -41,11 +41,13 @@ my $exiftool = Image::ExifTool->new();
 ## Load config. ##
 
 my %default_config = (
+    # A minimum field definition consists of a tag and a label; default values
+    # are provided below for tooltip (the empty string) and editable (true).
     field => [
         {
             tag      => 'XMP-dc:Description',
             label    => 'Description',
-            toolt    => 'Describe the content and context of the image.',
+            tooltip  => 'Describe the content and context of the image.',
             editable => 'yes',
         },
         {
@@ -67,9 +69,12 @@ my %default_config = (
             editable => 'yes',
         },
     ],
+    # Window default width and height.
     windowwidth  => 500,
     windowheight => 500,
+    # Maximize the window?
     maximize     => 'no',
+    # The external image viewer.
     viewer       => 'eog',
 );
 
@@ -291,56 +296,31 @@ $paned->pack2($grid2, 0, 0);
 
 ## Build GUI: workspace pt. 2 (metadata entry fields). ##
 
-# Every metadata field we want to be able to edit needs an entry in this
-# array. Every entry consists of a label for the text entry field (label), the
-# metadata field's full tag name (tag), the metadata field's short tag name
-# (key), a tooltip describing the metadata field (tooltip), a boolean value
-# whether the text entry will be editable (editable) and a place for the entry
-# widget (widget, always undef). The reason we need both tag and key is that
-# apparently ExifTool needs either of these sometimes...
-my @fields = (
-    {
-        label       => 'Description',
-        tag         => 'XMP-dc:Description',
-        key         => 'Description',
-        tooltip     => 'Describe the content and context of the image.',
-        editable    => 1,
-        widget      => undef,
-    },
-    {
-        label       => 'Date',
-        tag         => 'XMP-dc:Date',
-        key         => 'Date',
-        tooltip     => 'Provide the date and time the image was taken.',
-        editable    => 0,
-        widget      => undef,
-    },
-    {
-        label       => 'Creator',
-        tag         => 'XMP-dc:Creator',
-        key         => 'Creator',
-        tooltip     => 'Name the photographer who created the image.',
-        editable    => 1,
-        widget      => undef,
-    },
-    {
-        label       => 'Rights',
-        tag         => 'XMP-dc:Rights',
-        key         => 'Rights',
-        tooltip     => 'State intellectual property rights or applicable '
-                    .  'licenses.',
-        editable    => 1,
-        widget      => undef,
-    },
-    # {
-    #     label       => 'Coverage',
-    #     tag         => 'XMP-dc:Coverage',
-    #     key         => 'Coverage',
-    #     tooltip     => 'If relevant, name the location shown in the image.',
-    #     editable    => 1,
-    #     widget      => undef,
-    # },
-);
+# Every metadata field we want to be able to edit needs an entry in the array
+# @fields. Every entry consists of a label for the text entry field (label),
+# the metadata field's full tag name (tag), the metadata field's short tag
+# name (key, the part after the tag's last (or only?) colon), a tooltip
+# describing the metadata field (tooltip), a boolean value whether the text
+# entry will be editable (editable) and a place for the entry widget (widget,
+# always initialized undef). The reason we need both tag and key is that
+# apparently ExifTool needs either of these sometimes... For the most part,
+# the array @fields is populated from the array referenced by $config{field},
+# but the entries key and widget have to be added since they are not contained
+# in the config. Default values are provided where sensible, so the minimum
+# config entry for a field definition consists of just tag and label.
+
+my @fields = @{$config{field}};
+for my $f (@fields) {
+    my @tag_parts = split /:/, $f->{tag};
+    $f->{key} = $tag_parts[$#tag_parts];
+    $f->{widget} = undef;
+    if (!exists $f->{tooltip}) {
+        $f->{tooltip} = '';
+    }
+    if (!exists $f->{editable}) {
+        $f->{editable} = 1;
+    }
+}
 
 for my $i (0..$#fields) {
     my $label = Gtk3::Label->new($fields[$i]{'label'});
