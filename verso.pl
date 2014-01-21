@@ -70,7 +70,6 @@ my %default_config = (
     windowwidth  => 500,
     windowheight => 500,
     maximize     => 'no',
-    fullscreen   => 'no',
     viewer       => 'eog',
 );
 
