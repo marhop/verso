@@ -40,52 +40,48 @@ my $exiftool = Image::ExifTool->new();
 
 ## Load config. ##
 
-my %default_config = (
-    # A minimum field definition consists of a tag and a label; default values
-    # are provided below for tooltip (the empty string) and editable (true).
-    field => [
-        {
-            tag      => 'XMP-dc:Description',
-            label    => 'Description',
-            tooltip  => 'Describe the content and context of the image.',
-            editable => 'yes',
-        },
-        {
-            tag      => 'XMP-dc:Date',
-            label    => 'Date',
-            tooltip  => 'Provide the date and time the image was taken.',
-            editable => 'yes',
-        },
-        {
-            tag      => 'XMP-dc:Creator',
-            label    => 'Creator',
-            tooltip  => 'Name the photographer who created the image.',
-            editable => 'yes',
-        },
-        {
-            tag      => 'XMP-dc:Rights',
-            label    => 'Rights',
-            tooltip  => 'State intellectual property rights or licenses.',
-            editable => 'yes',
-        },
-    ],
-    # Window default width and height.
-    windowwidth  => 500,
-    windowheight => 500,
-    # Maximize the window?
-    maximize     => 'no',
-    # The external image viewer.
-    viewer       => 'eog',
-);
-
 # TODO /home/user/.verso.conf -> /etc/verso.conf -> Default.
 my $configfile = 'verso.conf';
 my $conf = Config::General->new(
     -ConfigFile => $configfile,
-    #-DefaultConfig => \%default_config,
     -AutoTrue => 1,
 );
 my %config = $conf->getall();
+
+my @default_fields = (
+    # A minimum field definition consists of a tag and a label; default values
+    # are provided below for tooltip (the empty string) and editable (true).
+    {
+        tag      => 'XMP-dc:Description',
+        label    => 'Description',
+        tooltip  => 'Describe the content and context of the image.',
+        editable => 'yes',
+    },
+    {
+        tag      => 'XMP-dc:Date',
+        label    => 'Date',
+        tooltip  => 'Provide the date and time the image was taken.',
+        editable => 'yes',
+    },
+    {
+        tag      => 'XMP-dc:Creator',
+        label    => 'Creator',
+        tooltip  => 'Name the photographer who created the image.',
+        editable => 'yes',
+    },
+    {
+        tag      => 'XMP-dc:Rights',
+        label    => 'Rights',
+        tooltip  => 'State intellectual property rights or licenses.',
+        editable => 'yes',
+    },
+);
+
+$config{field}        //= \@default_fields;
+$config{windowwidth}  //= 500;
+$config{windowheight} //= 500;
+$config{maximize}     //= 0;
+$config{viewer}       //= 'eog';
 
 
 ## Build GUI: basic stuff. ##
