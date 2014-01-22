@@ -305,7 +305,13 @@ $paned->pack2($grid2, 0, 0);
 # in the config. Default values are provided where sensible, so the minimum
 # config entry for a field definition consists of just tag and label.
 
-my @fields = @{$config{field}};
+# Allow a one-field-only config.
+my @fields
+    = ref $config{field} eq 'ARRAY'
+    ? @{$config{field}}
+    : ($config{field})
+    ;
+
 for my $f (@fields) {
     my @tag_parts = split /:/, $f->{tag};
     $f->{key} = $tag_parts[$#tag_parts];
