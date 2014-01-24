@@ -25,6 +25,7 @@ use Image::ExifTool;
 use Gtk3 -init;
 use Config::General;
 use Encode qw(decode);
+use File::HomeDir;
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
@@ -40,12 +41,25 @@ my $exiftool = Image::ExifTool->new();
 
 ## Load config. ##
 
-# TODO /home/user/.verso.conf -> /etc/verso.conf -> Default.
-my $configfile = 'verso.conf';
-my $conf = Config::General->new(
-    -ConfigFile => $configfile,
-    -AutoTrue => 1,
-);
+my $conf;
+if (-e File::HomeDir->my_home() . '/.verso.conf') {
+    $conf = Config::General->new(
+        -ConfigFile => File::HomeDir->my_home(). '/.verso.conf',
+        -AutoTrue => 1,
+    );
+}
+elsif (-e '/etc/verso.conf') {
+    $conf = Config::General->new(
+        -ConfigFile => '/etc/verso.conf',
+        -AutoTrue => 1,
+    );
+}
+else {
+    $conf = Config::General->new(
+        -ConfigHash => {},
+        -AutoTrue => 1,
+    );
+}
 my %config = $conf->getall();
 
 my @default_fields = (
