@@ -68,25 +68,25 @@ my @default_fields = (
     {
         tag      => 'XMP-dc:Description',
         label    => 'Description',
-        tooltip  => 'Describe the content and context of the image.',
+        tooltip  => 'The content and context of the image.',
         editable => 'yes',
     },
     {
         tag      => 'XMP-dc:Date',
         label    => 'Date',
-        tooltip  => 'Provide the date and time the image was taken.',
+        tooltip  => 'The date and time the image was taken.',
         editable => 'yes',
     },
     {
         tag      => 'XMP-dc:Creator',
         label    => 'Creator',
-        tooltip  => 'Name the photographer who created the image.',
+        tooltip  => 'The photographer who created the image.',
         editable => 'yes',
     },
     {
         tag      => 'XMP-dc:Rights',
         label    => 'Rights',
-        tooltip  => 'State intellectual property rights or licenses.',
+        tooltip  => 'The intellectual property rights or licenses.',
         editable => 'yes',
     },
 );
