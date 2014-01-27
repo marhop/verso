@@ -96,6 +96,7 @@ $config{windowwidth}  //= 500;
 $config{windowheight} //= 500;
 $config{maximize}     //= 0;
 $config{viewer}       //= 'eog';
+$config{extension}    //= [qw(jpg jpeg JPG JPEG)];
 
 
 ## Build GUI: basic stuff. ##
@@ -519,38 +520,46 @@ sub on_previous_button_clicked {
 ## Other subroutines. ##
 
 sub load_file {
-    # TODO Check if files actually are JPEG files!
+    # TODO Filenames with umlauts don't work.
 
     my $path = shift;
+    state $ext
+        = ref $config{extension} eq 'ARRAY'
+        ? join ',', @{$config{extension}}
+        : $config{extension}
+        ;
 
     if (-e $path) {
         if (-d $path) {
             ($directory = $path) =~ s{/?$}{/};
 
-            @files = grep { ! -d } glob "$directory*.jpg";
+            @files = grep { ! -d } glob "$directory*.{$ext}";
 
             if (@files) {
                 $index = 0;
             }
             else {
-                create_error("No jpeg files found in $directory");
+                create_error(
+                    "No files with extension $ext found in $directory"
+                );
                 return;
             }
         }
         else {
             (undef, $directory, undef) = fileparse($path);
 
-            @files = grep { ! -d } glob "$directory*.jpg";
+            @files = grep { ! -d } glob "$directory*.{$ext}";
 
             if (@files) {
                 $index = first_index { $_ eq $path } @files;
             }
             else {
-                create_error("Not a jpeg file ($path)");
+                create_error("File $path doesn't have extension $ext.");
                 return;
             }
         }
 
+        # TODO Error/warning when file is no image file format?
         load_image();
         load_metadata();
         $window->set_title(
