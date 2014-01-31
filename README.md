@@ -22,8 +22,8 @@ Verso is written in Perl and features a Gtk3 GUI. Metadata editing is based on
 
 ## Status
 
-The program is not completely finished yet (see the TODO items below), but it
-can already be used to work with image metadata.
+The program is nearly finished and I use it on a regular basis. But see the
+TODO items below.
 
 ## Installation
 
@@ -65,10 +65,6 @@ photography.
 ## TODO
 
 * Enable the file opening menu.
-
-* Make metadata fields (and other stuff) configurable via a config file and/or
-  a GUI menu instead of modifying the source code (although this is quite
-  easy).
 
 * Write some more documentation (perldoc/man).
 
