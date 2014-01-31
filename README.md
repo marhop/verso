@@ -31,11 +31,14 @@ You will need Perl (minimum version 5.10) and the following non-core modules:
 
 * Image::ExifTool
 * Gtk3
+* Config::General
+* File::HomeDir
 * List::MoreUtils
 
-If these prerequisites are met, just execute the `verso.pl` file. For
-additional comfort you might consider putting it somewhere in your path (and
-maybe renaming it), e.g. `~/bin/verso` or `/opt/verso`. Then start it with:
+If these prerequisites are met (there are nice Debian packages for all these
+modules), just execute the `verso.pl` file. For additional comfort you might
+consider putting it somewhere in your path (and maybe renaming it), e.g.
+`~/bin/verso` or `/opt/verso`. Then start it with:
 
     $ verso path/to/imagedirectory
 
