@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Verso - a simple XMP metadata editor for JPEG images
+# Verso - an (XMP/JPEG) image metadata editor
 #
 # Copyright 2013, 2014 Martin Hoppenheit <martin@hoppenheit.info>
 #
@@ -465,7 +465,7 @@ sub on_menu_view_fullscreen_activate {
 sub on_menu_help_about_activate {
     my $dialog = Gtk3::AboutDialog->new();
     $dialog->set_program_name('Verso');
-    $dialog->set_comments('A simple XMP metadata editor for JPEG images.');
+    $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
     # $dialog->set_website();
     # $dialog->set_version();
     $dialog->set_copyright('Copyright 2013, 2014 Martin Hoppenheit');

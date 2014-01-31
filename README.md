@@ -1,18 +1,23 @@
 # Verso
 
-## A simple XMP metadata editor for JPEG images
+## An (XMP/JPEG) image metadata editor
 
-Verso is a tool for editing image metadata embedded in JPEG files. Metadata
-can be used e.g. to describe the image's content, the depicted persons, items
-and location, to provide information about the date and circumstances of its
-creation and to state its creator and any rights/license information.
+Verso is a tool for editing metadata embedded in image files. Metadata can be
+used for example to describe the image's content and the depicted persons, to
+provide information about the date of its creation and to state its creator
+and any rights/license information.
 
-Metadata created with Verso is structured with [Dublin Core] [DC] elements and
-stored in [XMP format] [XMP] inside the JPEG files. (There is no support for
-editing EXIF or IPTC metadata!)
+Verso's default configuration makes it an editor for [XMP] [XMP] metadata
+embedded in JPEG files. The metadata fields are structured with the [Dublin
+Core] [DC] elements Description, Date, Creator and Rights.
 
-Verso is written in Perl and features a Gtk3 GUI. Metadata editing is based on
-[Phil Harvey's ExifTool] [ET].
+Since metadata editing is based on [Phil Harvey's ExifTool] [ET] and Verso is
+highly configurable you may adjust the metadata elements that can be displayed
+and edited, as long as ExifTool can handle them. So Verso can easily be
+adapted to edit for example IPTC or EXIF instead of (or in addition to) XMP
+metadata, just by messing with the configuration file.
+
+Verso is written in Perl and features a Gtk3 GUI.
 
 ![Verso screenshot](screenshot.jpg)
 
