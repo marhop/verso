@@ -42,6 +42,17 @@ consider putting it somewhere in your path (and maybe renaming it), e.g.
 
     $ verso path/to/imagedirectory
 
+## Configuration
+
+If you wish to change Verso's settings, copy the default configuration file
+`verso.conf` either to `~/.verso.conf` (user specific configuration) or to
+`/etc/verso.conf` (system wide configuration) and adjust it to your liking.
+The default configuration file contains all configurable options together with
+their default values and some descriptive comments.
+
+A user specific configuration file takes precedence over a system wide
+configuration file.
+
 ## What about the name?
 
 [Recto and verso] [RV] are the "front" and "back" sides of a leaf of paper.
