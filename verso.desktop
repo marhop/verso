@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Verso
+Comment=An (XMP/JPEG) image metadata editor
+Exec=/opt/verso %f
+Icon=
+Type=Application
+Terminal=false
+Categories=Graphics;

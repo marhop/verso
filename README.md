@@ -38,9 +38,20 @@ You will need Perl (minimum version 5.10) and the following non-core modules:
 * File::HomeDir
 * List::MoreUtils
 
-If these prerequisites are met, download the [program files][VersoDownload]
-and put the `verso.pl` file somewhere in your path (and maybe rename it), e.g.
-`~/bin/verso` or `/opt/verso`. Then make it executable and start it with:
+When these prerequisites are met, download the [program files][VersoDownload].
+If you're on Linux/Gnome, run the following command to install:
+
+    $ sudo make install
+
+You can then start Verso from the Applications menu. To uninstall Verso run
+one of the following two commands (purge includes `/etc/verso.conf`):
+
+    $ sudo make uninstall
+    $ sudo make purge
+
+For manual installation put the `verso.pl` file somewhere in your path (and
+maybe rename it), e.g. `~/bin/verso` or `/opt/verso`. Then make it executable
+and start it with:
 
     $ verso path/to/imagedirectory
 
