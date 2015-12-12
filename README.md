@@ -38,6 +38,11 @@ You will need Perl (minimum version 5.10) and the following non-core modules:
 * File::HomeDir
 * List::MoreUtils
 
+On Debian:
+
+    # aptitude install libimage-exiftool-perl libgtk3-perl \
+        libconfig-general-perl libfile-homedir-perl liblist-moreutils-perl
+
 When these prerequisites are met, download the [program files][VersoDownload].
 If you're on Linux/Gnome, run the following command to install:
 
@@ -80,13 +85,11 @@ The project website is [here][Verso], the program files are
 
 ## TODO
 
-* Enable the file opening menu.
-
 * Write some more documentation (perldoc/man).
 
 ## License
 
-Copyright 2013, 2014 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013-2015 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

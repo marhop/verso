@@ -2,7 +2,7 @@
 
 # Verso - an (XMP/JPEG) image metadata editor
 #
-# Copyright 2013, 2014 Martin Hoppenheit <martin@hoppenheit.info>
+# Copyright 2013-2015 Martin Hoppenheit <martin@hoppenheit.info>
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -390,25 +390,17 @@ Gtk3::main();
 ## Menu callback routines. ##
 
 sub on_menu_file_open_activate {
-    # TODO doesn't work
-    # my $dialog = Gtk3::FileChooserDialog->new(
-    #     'Open file',
-    #     $window,
-    #     'GTK_FILE_CHOOSER_ACTION_OPEN',
-    #     'GTK_STOCK_CANCEL', 'GTK_RESPONSE_CANCEL',
-    #     'GTK_STOCK_OPEN', 'GTK_RESPONSE_ACCEPT',
-    #     'NULL'
-    # );
-    # $dialog->run();
-    # $dialog->destroy();
-
-    my $msg
-        = "Not implemented yet.\n"
-        . "Call 'verso <image directory or image file>' "
-        . "on the command line.";
-
-    create_warning($msg);
-
+    my $dialog = Gtk3::FileChooserDialog->new(
+        'Open file',
+        $window,
+        'GTK_FILE_CHOOSER_ACTION_OPEN',
+        Gtk3::STOCK_CANCEL, 'GTK_RESPONSE_CANCEL',
+        Gtk3::STOCK_OPEN, 'GTK_RESPONSE_ACCEPT'
+    );
+    if ($dialog->run() eq 'accept') {
+        load_file($dialog->get_filename());
+    }
+    $dialog->destroy();
     return;
 }
 
@@ -466,9 +458,10 @@ sub on_menu_help_about_activate {
     my $dialog = Gtk3::AboutDialog->new();
     $dialog->set_program_name('Verso');
     $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
+    # TODO Add website and version info.
     # $dialog->set_website();
     # $dialog->set_version();
-    $dialog->set_copyright('Copyright 2013, 2014 Martin Hoppenheit');
+    $dialog->set_copyright('Copyright 2013-2015 Martin Hoppenheit');
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
 
     $dialog->run();
