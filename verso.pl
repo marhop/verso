@@ -456,17 +456,18 @@ sub on_menu_view_fullscreen_activate {
 
 sub on_menu_help_about_activate {
     my $dialog = Gtk3::AboutDialog->new();
+    $dialog->set_transient_for($window);
     $dialog->set_program_name('Verso');
-    $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
-    # TODO Add website and version info.
-    # $dialog->set_website();
+    # TODO Set version number.
     # $dialog->set_version();
     $dialog->set_copyright('Copyright 2013-2015 Martin Hoppenheit');
+    $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
-
+    $dialog->set_website('http://martin.hoppenheit.info/code/verso');
+    # TODO Make a program logo.
+    # $dialog->set_logo();
     $dialog->run();
     $dialog->destroy();
-
     return;
 }
 
