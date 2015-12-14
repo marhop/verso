@@ -23,11 +23,6 @@ Verso is written in Perl and features a Gtk3 GUI.
 
 ![Verso screenshot](screenshot.jpg)
 
-## Status
-
-The program is nearly finished and I use it on a regular basis. But see the
-TODO items below.
-
 ## Installation
 
 You will need Perl (minimum version 5.10) and the following non-core modules:
@@ -82,10 +77,6 @@ photography.
 
 The project website is [here][Verso], the program files are
 [here][VersoDownload]. The source code can be found on [GitHub][VersoGitHub].
-
-## TODO
-
-* Write some more documentation (perldoc/man).
 
 ## License
 
