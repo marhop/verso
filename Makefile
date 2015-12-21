@@ -1,4 +1,4 @@
-distfiles = verso.pl verso.conf README.md screenshot.jpg LICENSE.txt
+distfiles = verso.pl verso.conf verso.desktop README.md screenshot.jpg LICENSE.txt
 
 .PHONY: dist
 dist: verso.tar.gz
