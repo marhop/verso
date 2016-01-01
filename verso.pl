@@ -570,11 +570,11 @@ sub load_file {
 
 sub load_image {
     my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
+    my $pixbuf_rotated = $pixbuf->apply_embedded_orientation();
     my $max_w = $scrolled->get_allocation()->{width};
     my $max_h = $scrolled->get_allocation()->{height};
-    my $scaled = scale_pixbuf($pixbuf, $max_w, $max_h);
-    $image->set_from_pixbuf($scaled);
-
+    my $pixbuf_rotated_scaled = scale_pixbuf($pixbuf_rotated, $max_w, $max_h);
+    $image->set_from_pixbuf($pixbuf_rotated_scaled);
     return;
 }
 
