@@ -1,8 +1,10 @@
 [Desktop Entry]
 Name=Verso
-Comment=An (XMP/JPEG) image metadata editor
-Exec=/opt/verso %f
+Comment=Edit (XMP/JPEG) image metadata
+Comment[de]=Bildmetadaten (XMP/JPEG) bearbeiten
+Exec=verso %f
 Icon=
 Type=Application
 Terminal=false
 Categories=Graphics;
+MimeType=image/jpeg;image/jpg
