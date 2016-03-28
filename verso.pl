@@ -2,7 +2,7 @@
 
 # Verso - an (XMP/JPEG) image metadata editor
 #
-# Copyright 2013-2015 Martin Hoppenheit <martin@hoppenheit.info>
+# Copyright 2013-2016 Martin Hoppenheit <martin@hoppenheit.info>
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -381,7 +381,8 @@ $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
 $window->show_all();
 
 if (@ARGV) {
-    load_file(shift);
+    init_files(shift);
+    load_current_file();
 }
 
 Gtk3::main();
@@ -398,7 +399,8 @@ sub on_menu_file_open_activate {
         Gtk3::STOCK_OPEN, 'GTK_RESPONSE_ACCEPT'
     );
     if ($dialog->run() eq 'accept') {
-        load_file($dialog->get_filename());
+        init_files($dialog->get_filename());
+        load_current_file();
     }
     $dialog->destroy();
     return;
@@ -423,7 +425,7 @@ sub on_menu_file_view_external_activate {
 sub on_menu_file_first_activate {
     if (@files) {
         $index = 0;
-        load_file($files[$index]);
+        load_current_file();
     }
 
     return;
@@ -442,7 +444,7 @@ sub on_menu_file_next_activate {
 sub on_menu_file_last_activate {
     if (@files) {
         $index = $#files;
-        load_file($files[$index]);
+        load_current_file();
     }
 
     return;
@@ -460,7 +462,7 @@ sub on_menu_help_about_activate {
     $dialog->set_program_name('Verso');
     # TODO Set version number.
     # $dialog->set_version();
-    $dialog->set_copyright('Copyright 2013-2015 Martin Hoppenheit');
+    $dialog->set_copyright('Copyright 2013-2016 Martin Hoppenheit');
     $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
     $dialog->set_website('http://martin.hoppenheit.info/code/verso');
@@ -475,12 +477,12 @@ sub on_menu_help_about_activate {
 ## Button callback routines. ##
 
 sub on_save_button_clicked {
-    write_metadata();
+    write_current_metadata();
     return;
 }
 
 sub on_undo_button_clicked {
-    load_metadata();
+    load_current_metadata();
     return;
 }
 
@@ -488,7 +490,7 @@ sub on_next_button_clicked {
     $index++;
 
     if (scalar @files > $index) {
-        load_file($files[$index]);
+        load_current_file();
     }
     else {
         $index--;
@@ -501,7 +503,7 @@ sub on_previous_button_clicked {
     $index--;
 
     if ($index >= 0) {
-        load_file($files[$index]);
+        load_current_file();
     }
     else {
         $index++;
@@ -513,22 +515,17 @@ sub on_previous_button_clicked {
 
 ## Other subroutines. ##
 
-sub load_file {
-    # TODO Filenames with umlauts don't work.
-
+sub init_files {
     my $path = shift;
     state $ext
         = ref $config{extension} eq 'ARRAY'
         ? join ',', @{$config{extension}}
         : $config{extension}
         ;
-
     if (-e $path) {
         if (-d $path) {
             ($directory = $path) =~ s{/?$}{/};
-
             @files = grep { ! -d } glob "$directory*.{$ext}";
-
             if (@files) {
                 $index = 0;
             }
@@ -541,9 +538,7 @@ sub load_file {
         }
         else {
             (undef, $directory, undef) = fileparse($path);
-
             @files = grep { ! -d } glob "$directory*.{$ext}";
-
             if (@files) {
                 $index = first_index { $_ eq $path } @files;
             }
@@ -552,23 +547,25 @@ sub load_file {
                 return;
             }
         }
-
-        # TODO Error/warning when file is no image file format?
-        load_image();
-        load_metadata();
-        $window->set_title(
-            basename($files[$index]) . " ($directory) - Verso"
-        );
-        $file_counter_label->set_text($index + 1 . '/' . scalar @files);
     }
     else {
         create_error("Could not find file $path");
     }
-
     return;
 }
 
-sub load_image {
+sub load_current_file {
+    # TODO Error/warning when current file is no image file format?
+    load_current_image();
+    load_current_metadata();
+    $window->set_title(
+        basename($files[$index]) . " ($directory) - Verso"
+    );
+    $file_counter_label->set_text($index + 1 . '/' . scalar @files);
+    return;
+}
+
+sub load_current_image {
     my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
     my $pixbuf_rotated = $pixbuf->apply_embedded_orientation();
     my $max_w = $scrolled->get_allocation()->{width};
@@ -597,7 +594,7 @@ sub scale_pixbuf {
     return $pixbuf;
 }
 
-sub load_metadata {
+sub load_current_metadata {
     my @tags = map { $_->{'tag'} } @fields;
     my $info = $exiftool->ImageInfo($files[$index], \@tags);
 
@@ -621,7 +618,7 @@ sub load_metadata {
     return;
 }
 
-sub write_metadata {
+sub write_current_metadata {
     for my $field (@fields) {
         my $entry_widget = $field->{'widget'};
         my $new_value    = $entry_widget->get_text();
