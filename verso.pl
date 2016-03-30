@@ -516,7 +516,7 @@ sub on_previous_button_clicked {
 ## Other subroutines. ##
 
 sub init_files {
-    my $path = shift;
+    my $path = decode 'utf8', shift;
     state $ext
         = ref $config{extension} eq 'ARRAY'
         ? join ',', @{$config{extension}}
@@ -525,7 +525,8 @@ sub init_files {
     if (-e $path) {
         if (-d $path) {
             ($directory = $path) =~ s{/?$}{/};
-            @files = grep { ! -d } glob "$directory*.{$ext}";
+            @files = map { decode 'utf8', $_ }
+                grep { ! -d } glob "$directory*.{$ext}";
             if (@files) {
                 $index = 0;
             }
@@ -538,8 +539,10 @@ sub init_files {
         }
         else {
             (undef, $directory, undef) = fileparse($path);
-            @files = grep { ! -d } glob "$directory*.{$ext}";
+            @files = map { decode 'utf8', $_ }
+                grep { ! -d } glob "$directory*.{$ext}";
             if (@files) {
+                # Does not work if $path contains a relative path!
                 $index = first_index { $_ eq $path } @files;
             }
             else {
