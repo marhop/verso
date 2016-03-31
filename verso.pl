@@ -523,32 +523,15 @@ sub init_files {
         : $config{extension}
         ;
     if (-e $path) {
-        if (-d $path) {
-            ($directory = $path) =~ s{/?$}{/};
-            @files = map { decode 'utf8', $_ }
-                grep { ! -d } glob "$directory*.{$ext}";
-            if (@files) {
-                $index = 0;
-            }
-            else {
-                create_error(
-                    "No files with extension $ext found in $directory"
-                );
-                return;
-            }
+        (undef, $directory, undef) = fileparse($path);
+        @files = map { decode 'utf8', $_ }
+            grep { ! -d } glob "$directory*.{$ext}";
+        if (@files) {
+            # Does not work if $path contains a relative path!
+            $index = -d $path ? 0 : first_index { $_ eq $path } @files;
         }
         else {
-            (undef, $directory, undef) = fileparse($path);
-            @files = map { decode 'utf8', $_ }
-                grep { ! -d } glob "$directory*.{$ext}";
-            if (@files) {
-                # Does not work if $path contains a relative path!
-                $index = first_index { $_ eq $path } @files;
-            }
-            else {
-                create_error("File $path doesn't have extension $ext.");
-                return;
-            }
+            create_error("No files with extension $ext found in $directory");
         }
     }
     else {
