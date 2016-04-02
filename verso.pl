@@ -381,8 +381,7 @@ $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
 $window->show_all();
 
 if (@ARGV) {
-    init_files(shift);
-    load_current_file();
+    init_files(shift) and load_current_file();
 }
 
 Gtk3::main();
@@ -399,8 +398,7 @@ sub on_menu_file_open_activate {
         Gtk3::STOCK_OPEN, 'GTK_RESPONSE_ACCEPT'
     );
     if ($dialog->run() eq 'accept') {
-        init_files($dialog->get_filename());
-        load_current_file();
+        init_files($dialog->get_filename()) and load_current_file();
     }
     $dialog->destroy();
     return;
@@ -523,11 +521,16 @@ sub init_files {
         : $config{extension}
         ;
     if (-e $path) {
+        # Prepend './' to simple file names without full path, otherwise the
+        # first_index function won't work correctly with globbed files.
+        $path =~ s{^(?!(/|\./|\.\./|\.$))}{./};
+        # Make sure a directory path ends with '/', otherwise the fileparse
+        # function won't work correctly.
+        $path =~ s{/?$}{/} if -d $path;
         (undef, $directory, undef) = fileparse($path);
         @files = map { decode 'utf8', $_ }
             grep { ! -d } glob "$directory*.{$ext}";
         if (@files) {
-            # Does not work if $path contains a relative path!
             $index = -d $path ? 0 : first_index { $_ eq $path } @files;
         }
         else {
@@ -537,7 +540,8 @@ sub init_files {
     else {
         create_error("Could not find file $path");
     }
-    return;
+    # True if there are @files, else false.
+    return scalar @files;
 }
 
 sub load_current_file {
