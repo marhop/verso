@@ -521,12 +521,7 @@ sub init_files {
         : $config{extension}
         ;
     if (-e $path) {
-        # Prepend './' to simple file names without full path, otherwise the
-        # first_index function won't work correctly with globbed files.
-        $path =~ s{^(?!(/|\./|\.\./|\.$))}{./};
-        # Make sure a directory path ends with '/', otherwise the fileparse
-        # function won't work correctly.
-        $path =~ s{/?$}{/} if -d $path;
+        $path = normalize_file_path($path);
         (undef, $directory, undef) = fileparse($path);
         @files = map { decode 'utf8', $_ }
             grep { ! -d } glob "$directory*.{$ext}";
@@ -542,6 +537,17 @@ sub init_files {
     }
     # True if there are @files, else false.
     return scalar @files;
+}
+
+sub normalize_file_path {
+    my $path = shift;
+    # Prepend './' to simple file names without full path, otherwise the
+    # first_index function won't work correctly with globbed files.
+    $path =~ s{^(?!(/|\./|\.\./|\.$))}{./};
+    # Make sure a directory path ends with '/', otherwise the fileparse
+    # function won't work correctly.
+    $path =~ s{/?$}{/} if -d $path;
+    return $path;
 }
 
 sub load_current_file {
