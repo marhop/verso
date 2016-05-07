@@ -56,13 +56,10 @@ exiftool(1p)
 [Recto and verso][RV] are the "front" and "back" sides of a leaf of paper. The
 metadata that can be edited with Verso is the same one might have written on
 the back (aka verso) side of a photo, back in the olden days of non-digital
-photography.
+photography. As you may have noticed the application icon tries to reflect
+this (or would, if it had been made by a proper graphics designer).
 
 [RV]: https://en.wikipedia.org/wiki/Recto_and_verso
-
-# BUGS
-
-Verso currently fails to open files whose names contain umlaut characters.
 
 # AUTHOR
 

@@ -464,8 +464,8 @@ sub on_menu_help_about_activate {
     $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
     $dialog->set_website('http://martin.hoppenheit.info/code/verso');
-    # TODO Make a program logo.
-    # $dialog->set_logo();
+    my $icon = '/usr/share/icons/hicolor/scalable/apps/verso.svg';
+    $dialog->set_logo(Gtk3::Gdk::Pixbuf->new_from_file($icon));
     $dialog->run();
     $dialog->destroy();
     return;
