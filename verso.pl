@@ -24,6 +24,7 @@ use utf8;
 use Image::ExifTool;
 use Gtk3 -init;
 use Config::General;
+use Getopt::Long;
 use Encode qw(decode);
 use File::HomeDir;
 use File::Basename;
@@ -39,10 +40,27 @@ my $index;      # index of current file in @files
 my $exiftool = Image::ExifTool->new();
 
 
+## Command line options. ##
+
+my $opt_config     = undef;
+my $opt_readonly   = 0;
+
+GetOptions(
+    'config=s'    => \$opt_config,
+    'readonly'    => \$opt_readonly,
+);
+
+
 ## Load config. ##
 
 my $conf;
-if (-e File::HomeDir->my_home() . '/.verso.conf') {
+if (defined $opt_config and -e $opt_config) {
+    $conf = Config::General->new(
+        -ConfigFile => $opt_config,
+        -AutoTrue => 1,
+    );
+}
+elsif (-e File::HomeDir->my_home() . '/.verso.conf') {
     $conf = Config::General->new(
         -ConfigFile => File::HomeDir->my_home(). '/.verso.conf',
         -AutoTrue => 1,
@@ -336,6 +354,9 @@ for my $f (@fields) {
     }
     if (!exists $f->{editable}) {
         $f->{editable} = 1;
+    }
+    if ($opt_readonly) {
+        $f->{editable} = 0;
     }
 }
 

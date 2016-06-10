@@ -6,7 +6,7 @@ verso - an (XMP/JPEG) image metadata editor
 
 # SYNOPSIS
 
-**verso** [*file*|*directory*]
+**verso** [*options*] [*file*|*directory*]
 
 # DESCRIPTION
 
@@ -28,6 +28,16 @@ metadata, just by messing with the configuration file.
 [XMP]: https://en.wikipedia.org/wiki/Extensible_Metadata_Platform
 [DC]: http://dublincore.org
 [ET]: http://www.sno.phy.queensu.ca/~phil/exiftool/
+
+# OPTIONS
+
+**-c** *FILE*, **--config** *FILE*
+  : Specify configuration file. Read configuration from *FILE* instead of the
+    default (see below).
+
+**-r**, **--readonly**
+  : Readonly mode. Make all metadata fields readonly regardless of settings in
+    the configuration file.
 
 # CONFIGURATION
 
