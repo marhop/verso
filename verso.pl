@@ -119,7 +119,7 @@ $config{field}        //= \@default_fields;
 $config{windowwidth}  //= 500;
 $config{windowheight} //= 500;
 $config{maximize}     //= 0;
-$config{viewer}       //= 'eog';
+$config{viewer}       //= 'xdg-open';
 $config{extension}    //= [qw(jpg jpeg JPG JPEG)];
 
 
