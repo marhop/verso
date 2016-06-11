@@ -42,36 +42,42 @@ my $exiftool = Image::ExifTool->new();
 
 ## Command line options. ##
 
-my $opt_config     = undef;
-my $opt_readonly   = 0;
+my $opt_config   = undef; # Custom config file path.
+my @opt_fields   = ();    # Additional metadata fields.
+my $opt_readonly = 0;     # Readonly.
 
 GetOptions(
-    'config=s'    => \$opt_config,
-    'readonly'    => \$opt_readonly,
+    'config=s' => \$opt_config,
+    'field=s'  => \@opt_fields,
+    'readonly' => \$opt_readonly,
 );
 
 
 ## Load config. ##
 
 my $conf;
+# Custom config file from --config command line option.
 if (defined $opt_config and -e $opt_config) {
     $conf = Config::General->new(
         -ConfigFile => $opt_config,
         -AutoTrue => 1,
     );
 }
+# User specifig config file.
 elsif (-e File::HomeDir->my_home() . '/.verso.conf') {
     $conf = Config::General->new(
         -ConfigFile => File::HomeDir->my_home(). '/.verso.conf',
         -AutoTrue => 1,
     );
 }
+# System wide config file.
 elsif (-e '/etc/verso.conf') {
     $conf = Config::General->new(
         -ConfigFile => '/etc/verso.conf',
         -AutoTrue => 1,
     );
 }
+# No config file, default values.
 else {
     $conf = Config::General->new(
         -ConfigHash => {},
@@ -344,6 +350,9 @@ my @fields
     ? @{$config{field}}
     : ($config{field})
     ;
+
+# Add fields from --field command line option.
+push @fields, map { { tag => $_, label => $_} } @opt_fields;
 
 for my $f (@fields) {
     my @tag_parts = split /:/, $f->{tag};

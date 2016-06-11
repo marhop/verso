@@ -32,8 +32,11 @@ metadata, just by messing with the configuration file.
 # OPTIONS
 
 **-c** *FILE*, **--config** *FILE*
-  : Specify configuration file. Read configuration from *FILE* instead of the
-    default (see below).
+  : Use custom configuration file *FILE* instead of the default path (see
+    below).
+
+**-f** *TAG*, **--field** *TAG*
+  : Add a metadata field specified by the ExifTool tag *TAG* to the GUI.
 
 **-r**, **--readonly**
   : Readonly mode. Make all metadata fields readonly regardless of settings in
