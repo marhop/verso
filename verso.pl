@@ -46,10 +46,11 @@ my $opt_config   = undef; # Custom config file path.
 my @opt_fields   = ();    # Additional metadata fields.
 my $opt_readonly = 0;     # Readonly.
 
+Getopt::Long::Configure('bundling');
 GetOptions(
-    'config=s' => \$opt_config,
-    'field=s'  => \@opt_fields,
-    'readonly' => \$opt_readonly,
+    'config|c=s' => \$opt_config,
+    'field|f=s'  => \@opt_fields,
+    'readonly|r' => \$opt_readonly,
 );
 
 
