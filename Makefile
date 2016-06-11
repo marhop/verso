@@ -17,8 +17,8 @@ verso.tar.gz: $(distfiles)
 .PHONY: man
 man: verso.1.gz
 
-verso.1.gz: manpage.md
-	@pandoc -f markdown -t man -s $^ | gzip -9 > $@
+verso.1.gz: verso.pl
+	@pod2man $^ | gzip -9 > $@
 
 .PHONY: icons
 icons: verso.png verso.xpm

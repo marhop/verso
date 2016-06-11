@@ -38,8 +38,6 @@ On Debian:
     # aptitude install libimage-exiftool-perl libgtk3-perl \
         libconfig-general-perl libfile-homedir-perl liblist-moreutils-perl
 
-To compile the manpage file you also need [Pandoc].
-
 When these prerequisites are met, download the [program files][VersoDownload].
 If you're on Linux/Gnome, run the following command to install:
 
@@ -104,5 +102,4 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 [XMP]: https://en.wikipedia.org/wiki/Extensible_Metadata_Platform
 [ET]: http://www.sno.phy.queensu.ca/~phil/exiftool/
 [RV]: https://en.wikipedia.org/wiki/Recto_and_verso
-[Pandoc]: http://pandoc.org/
 

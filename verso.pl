@@ -25,6 +25,7 @@ use Image::ExifTool;
 use Gtk3 -init;
 use Config::General;
 use Getopt::Long;
+use Pod::Usage;
 use Encode qw(decode);
 use File::HomeDir;
 use File::Basename;
@@ -42,16 +43,20 @@ my $exiftool = Image::ExifTool->new();
 
 ## Command line options. ##
 
+my $opt_help     = 0;     # Help message.
 my $opt_config   = undef; # Custom config file path.
 my @opt_fields   = ();    # Additional metadata fields.
 my $opt_readonly = 0;     # Readonly.
 
 Getopt::Long::Configure('bundling');
 GetOptions(
+    'help|h'     => \$opt_help,
     'config|c=s' => \$opt_config,
     'field|f=s'  => \@opt_fields,
     'readonly|r' => \$opt_readonly,
 );
+
+pod2usage(1) if $opt_help;
 
 
 ## Load config. ##
@@ -719,3 +724,108 @@ sub create_error {
 
     return;
 }
+
+__END__
+
+=head1 NAME
+
+verso - an (XMP/JPEG) image metadata editor
+
+=head1 SYNOPSIS
+
+B<verso> [options] [file|directory]
+
+=head1 DESCRIPTION
+
+Verso is a tool for editing metadata embedded in image files. Metadata can be
+used for example to describe the image's content and the depicted persons, to
+provide information about the date of its creation and to state its creator
+and any rights/license information.
+
+Verso's default configuration makes it an editor for
+L<XMP|https://en.wikipedia.org/wiki/Extensible_Metadata_Platform> metadata
+embedded in JPEG files. The metadata fields are structured with the L<Dublin
+Core|http://dublincore.org> elements Description, Date, Creator and Rights.
+
+Since metadata editing is based on L<Phil Harvey's
+ExifTool|http://www.sno.phy.queensu.ca/~phil/exiftool/> and Verso is highly
+configurable you may adjust the metadata elements that can be displayed and
+edited, as long as ExifTool can handle them. So Verso can easily be adapted to
+edit for example IPTC or EXIF instead of (or in addition to) XMP metadata,
+just by messing with the configuration file.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-h>, B<--help>
+
+Print a short help message.
+
+=item B<-c> FILE, B<--config> FILE
+
+Use custom configuration file FILE instead of the default path.
+
+=item B<-f> TAG, B<--field> TAG
+
+Add a metadata field specified by the ExifTool tag TAG to the GUI.
+
+=item B<-r>, B<--readonly>
+
+Readonly mode. Make all metadata fields readonly regardless of settings in the
+configuration file.
+
+=back
+
+=head1 CONFIGURATION
+
+The default configuration file F</etc/verso.conf> contains all configurable
+options together with their default values and some descriptive comments.
+
+=head1 FILES
+
+F</etc/verso.conf>
+
+System wide configuration file.
+
+F<~/.verso.conf>
+
+User specific configuration file.
+
+A user specific configuration file takes precedence over a system wide
+configuration file.
+
+=head1 SEE ALSO
+
+exiftool(1p)
+
+=head1 WHAT ABOUT THE NAME?
+
+L<Recto and verso|https://en.wikipedia.org/wiki/Recto_and_verso> are the
+"front" and "back" sides of a leaf of paper. The metadata that can be edited
+with Verso is the same one might have written on the back (aka verso) side of
+a photo, back in the olden days of non-digital photography. As you may have
+noticed the application icon tries to reflect this (or would, if it had been
+made by a proper graphics designer).
+
+=head1 AUTHOR
+
+Martin Hoppenheit L<http://martin.hoppenheit.info/code/verso>
+
+=head1 COPYRIGHT
+
+Copyright 2013-2016 Martin Hoppenheit <martin@hoppenheit.info>
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see L<http://www.gnu.org/licenses/>.
+
