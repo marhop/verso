@@ -768,7 +768,9 @@ Use custom configuration file FILE instead of the default path.
 
 =item B<-f> TAG, B<--field> TAG
 
-Add a metadata field specified by the ExifTool tag TAG to the GUI.
+Add a metadata field specified by the ExifTool tag TAG to the GUI. Example:
+
+    $ verso -f DateTimeOriginal -f ImageWidth
 
 =item B<-r>, B<--readonly>
 
