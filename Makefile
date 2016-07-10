@@ -1,27 +1,29 @@
-distfiles = verso.pl verso.conf verso.1.gz verso.desktop README.md \
-	verso.xpm verso.png verso.svg screenshot.jpg LICENSE.txt
-binfile = /usr/local/bin/verso
-conffile = /etc/verso.conf
-manfile = /usr/share/man/man1/verso.1.gz
-desktopfile = /usr/share/applications/verso.desktop
-iconfile_xpm = /usr/share/pixmaps/verso.xpm
-iconfile_png = /usr/share/icons/hicolor/48x48/apps/verso.png
-iconfile_svg = /usr/share/icons/hicolor/scalable/apps/verso.svg
+sdistfiles = verso.pl verso.conf verso.desktop verso.svg \
+			 README.md Makefile LICENSE.txt
+buildfiles = verso.1.gz verso.png verso.xpm
+
+bin = $(DESTDIR)/usr/bin/verso
+conf = $(DESTDIR)/etc/verso.conf
+desktop = $(DESTDIR)/usr/share/applications/verso.desktop
+man = $(DESTDIR)/usr/share/man/man1/verso.1.gz
+icon_xpm = $(DESTDIR)/usr/share/pixmaps/verso.xpm
+icon_png = $(DESTDIR)/usr/share/icons/hicolor/48x48/apps/verso.png
+icon_svg = $(DESTDIR)/usr/share/icons/hicolor/scalable/apps/verso.svg
+
+.PHONY: all
+all: $(buildfiles)
 
 .PHONY: dist
-dist: verso.tar.gz
+dist: sdist
 
-verso.tar.gz: $(distfiles)
+.PHONY: sdist
+sdist: verso.tar.gz
+
+verso.tar.gz: $(sdistfiles)
 	@tar -czf $@ $^
-
-.PHONY: man
-man: verso.1.gz
 
 verso.1.gz: verso.pl
 	@pod2man $^ | gzip -9 > $@
-
-.PHONY: icons
-icons: verso.png verso.xpm
 
 verso.png: verso.svg
 	@inkscape \
@@ -41,26 +43,25 @@ verso.xpm: verso.svg
 	@convert verso32x32.png $@
 	@rm verso32x32.png
 
+.PHONY: install
+install: verso.pl verso.conf verso.desktop verso.svg $(buildfiles)
+	@install -Dm 755 verso.pl $(bin)
+	@install -Dm 644 verso.conf $(conf)
+	@install -Dm 644 verso.desktop $(desktop)
+	@install -Dm 644 verso.1.gz $(man)
+	@install -Dm 644 verso.xpm $(icon_xpm)
+	@install -Dm 644 verso.png $(icon_png)
+	@install -Dm 644 verso.svg $(icon_svg)
+
 .PHONY: clean
 clean:
-	@rm -f verso.tar.gz verso.1.gz verso.png verso.xpm
-
-.PHONY: install
-install: verso.pl verso.conf verso.1.gz verso.desktop verso.png verso.xpm
-	@install -m 755 verso.pl $(binfile)
-	@install -m 644 verso.conf $(conffile)
-	@install -m 644 verso.1.gz $(manfile)
-	@install -m 644 verso.desktop $(desktopfile)
-	@install -m 644 verso.xpm $(iconfile_xpm)
-	@install -m 644 verso.png $(iconfile_png)
-	@install -m 644 verso.svg $(iconfile_svg)
+	@rm -f $(buildfiles)
 
 .PHONY: uninstall
 uninstall:
-	@rm -f $(binfile) $(manfile) $(desktopfile) \
-		$(iconfile_xpm) $(iconfile_png) $(iconfile_svg)
+	@rm -f $(bin) $(desktop) $(man) $(icon_xpm) $(icon_png) $(icon_svg)
 
 .PHONY: purge
 purge: uninstall
-	@rm -f $(conffile)
+	@rm -f $(conf)
 
