@@ -1,3 +1,4 @@
+version = 0.0.0
 sdistfiles = verso.pl verso.conf verso.desktop verso.svg \
 			 README.md Makefile LICENSE.txt
 buildfiles = verso.1.gz verso.png verso.xpm
@@ -17,12 +18,12 @@ all: $(buildfiles)
 dist: sdist
 
 .PHONY: sdist
-sdist: dist/verso.tar.gz
+sdist: dist/verso-$(version).tar.gz
 
-dist/verso.tar.gz: $(sdistfiles)
-	@mkdir -p dist/verso/
-	@cp $^ dist/verso/
-	@tar -C dist/ -czf $@ verso/
+dist/verso-$(version).tar.gz: $(sdistfiles)
+	@mkdir -p dist/verso-$(version)/
+	@cp $^ dist/verso-$(version)/
+	@tar -C dist/ -czf $@ verso-$(version)/
 
 verso.1.gz: verso.pl
 	@pod2man $^ | gzip -9 > $@
