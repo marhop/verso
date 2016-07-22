@@ -17,10 +17,12 @@ all: $(buildfiles)
 dist: sdist
 
 .PHONY: sdist
-sdist: verso.tar.gz
+sdist: dist/verso.tar.gz
 
-verso.tar.gz: $(sdistfiles)
-	@tar -czf $@ $^
+dist/verso.tar.gz: $(sdistfiles)
+	@mkdir -p dist/verso/
+	@cp $^ dist/verso/
+	@tar -C dist/ -czf $@ verso/
 
 verso.1.gz: verso.pl
 	@pod2man $^ | gzip -9 > $@
@@ -55,7 +57,7 @@ install: verso.pl verso.conf verso.desktop verso.svg $(buildfiles)
 
 .PHONY: clean
 clean:
-	@rm -f $(buildfiles)
+	@rm -rf $(buildfiles) dist/
 
 .PHONY: uninstall
 uninstall:
