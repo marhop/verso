@@ -27,20 +27,29 @@ Verso is written in Perl and features a Gtk3 GUI.
 
 You will need Perl (minimum version 5.10) and the following non-core modules:
 
-* Image::ExifTool
-* Gtk3
-* Config::General
-* File::HomeDir
-* List::MoreUtils
+  * Image::ExifTool
+  * Gtk3
+  * Config::General
+  * File::HomeDir
+  * List::MoreUtils
 
-On Debian:
+To build some icon files you also need Inkscape and ImageMagick.
 
-    # aptitude install libimage-exiftool-perl libgtk3-perl \
-        libconfig-general-perl libfile-homedir-perl liblist-moreutils-perl
+On a usual Debian desktop system, the following packages should get you
+started:
+
+  * libimage-exiftool-perl
+  * libgtk3-perl
+  * libconfig-general-perl
+  * libfile-homedir-perl
+  * liblist-moreutils-perl
+  * inkscape (for building only)
+  * imagemagick (for building only)
 
 When these prerequisites are met, download the [program files][VersoDownload].
 If you're on Linux/Gnome, run the following command to install:
 
+    $ make
     $ sudo make install
 
 You can then start Verso from the Applications menu. To uninstall Verso run
