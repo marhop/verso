@@ -14,9 +14,6 @@ icon_svg = $(DESTDIR)/usr/share/icons/hicolor/scalable/apps/verso.svg
 .PHONY: all
 all: $(buildfiles)
 
-.PHONY: dist
-dist: sdist
-
 .PHONY: sdist
 sdist: dist/verso-$(version).tar.gz
 
