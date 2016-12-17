@@ -21,8 +21,6 @@ metadata, just by messing with the configuration file.
 
 Verso is written in Perl and features a Gtk3 GUI.
 
-![Verso screenshot](screenshot.jpg)
-
 ## Installation
 
 You will need Perl (minimum version 5.10) and the following non-core modules:
