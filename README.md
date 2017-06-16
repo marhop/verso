@@ -1,23 +1,22 @@
 # Verso
 
-An (XMP/JPEG) image metadata editor.
+editor for embedded image metadata
 
 ## Rationale
 
-Verso is a tool for editing metadata embedded in image files. Metadata can be
-used for example to describe the image's content and the depicted persons, to
-provide information about the date of its creation and to state its creator
-and any rights/license information.
+Verso is an editor for metadata embedded in image files. Metadata can be used
+to describe, amongst others, the image's content and the depicted persons, to
+provide the date of its creation or to state license information. It can also
+contain technical data like shutter speed and focal length.
 
-Verso's default configuration makes it an editor for [XMP][XMP] metadata
-embedded in JPEG files. The metadata fields are structured with the [Dublin
-Core][DC] elements Description, Date, Creator and Rights.
-
-Since metadata editing is based on [Phil Harvey's ExifTool][ET] and Verso is
-highly configurable you may adjust the metadata elements that can be displayed
-and edited, as long as ExifTool can handle them. So Verso can easily be
-adapted to edit for example IPTC or EXIF instead of (or in addition to) XMP
-metadata, just by messing with the configuration file.
+Verso's default configuration makes it an editor for XMP metadata embedded in
+JPEG files, particularly for the Dublin Core metadata elements Description,
+Date, Creator and Rights. But since metadata editing is based on ExifTool and
+Verso is highly customizable you may adjust the metadata fields that can be
+displayed and edited, as long as ExifTool can handle them. So Verso can easily
+be adapted to edit for example IPTC or EXIF instead of (or in addition to) XMP
+metadata. Metadata fields can be added in the configuration file or on the fly
+via command line options.
 
 Verso is written in Perl and features a Gtk3 GUI.
 
@@ -31,10 +30,8 @@ You will need Perl (minimum version 5.10) and the following non-core modules:
   * File::HomeDir
   * List::MoreUtils
 
-To build some icon files you also need Inkscape and ImageMagick.
-
-On a usual Debian desktop system, the following packages should get you
-started:
+To build some icon files you also need Inkscape and ImageMagick. On a usual
+Debian desktop system, the following packages should get you started:
 
   * libimage-exiftool-perl
   * libgtk3-perl
@@ -44,50 +41,29 @@ started:
   * inkscape (for building only)
   * imagemagick (for building only)
 
-When these prerequisites are met, download the [program files][VersoDownload].
-If you're on Linux/Gnome, run the following command to install:
+When these prerequisites are met, download the [program source files from
+GitHub][VersoGitHub]. If you're on Linux/Gnome, run the following command to
+install:
 
     $ make
     $ sudo make install
 
-You can then start Verso from the Applications menu. To uninstall Verso run
-one of the following two commands (purge includes `/etc/verso.conf`):
+You can then start Verso from the Applications menu or from the command line.
+Documentation is available from the man page. To uninstall Verso run one of
+the following two commands (purge includes the configuration file
+`/etc/verso.conf`, but not `~/.verso.conf`):
 
     $ sudo make uninstall
     $ sudo make purge
 
-For manual installation put the `verso.pl` file somewhere in your path (and
-maybe rename it), e.g. `~/bin/verso` or `/opt/verso`. Then make it executable
-and start it with:
-
-    $ verso path/to/imagedirectory
-
-## Configuration
-
-If you wish to change Verso's settings, copy the default configuration file
-`verso.conf` either to `~/.verso.conf` (user specific configuration) or to
-`/etc/verso.conf` (system wide configuration) and adjust it to your liking.
-The default configuration file contains all configurable options together with
-their default values and some descriptive comments.
-
-A user specific configuration file takes precedence over a system wide
-configuration file.
-
-## What about the name?
-
-[Recto and verso][RV] are the "front" and "back" sides of a leaf of paper. The
-metadata that can be edited with Verso is the same one might have written on
-the back (aka verso) side of a photo, back in the olden days of non-digital
-photography.
-
 ## Project Website
 
-The project website is [here][Verso], the program files are
-[here][VersoDownload]. The source code can be found on [GitHub][VersoGitHub].
+The project website is [here][Verso]. The source code can be found on
+[GitHub][VersoGitHub].
 
 ## License
 
-Copyright 2013-2016 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013-2017 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -102,11 +78,6 @@ details.
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 
-[Verso]: http://martin.hoppenheit.info/code/verso
+[Verso]: https://martin.hoppenheit.info/code/verso/
 [VersoGitHub]: https://github.com/marhop/verso
-[VersoDownload]: http://martin.hoppenheit.info/code/verso/verso.tar.gz
-[DC]: http://dublincore.org
-[XMP]: https://en.wikipedia.org/wiki/Extensible_Metadata_Platform
-[ET]: http://www.sno.phy.queensu.ca/~phil/exiftool/
-[RV]: https://en.wikipedia.org/wiki/Recto_and_verso
 
