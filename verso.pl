@@ -655,19 +655,19 @@ sub write_current_metadata {
         my $entry_widget = $field->{'widget'};
         my $new_value    = $entry_widget->get_text();
         my $metadata_tag = $field->{'tag'};
-
         $exiftool->SetNewValue($metadata_tag, $new_value, Replace => 1);
     }
 
-    my $tmpfile = File::Temp->new()->filename();
+    my $tmpfile = File::Temp->new(SUFFIX => '-verso')->filename();
     my $success = $exiftool->WriteInfo($files[$index], $tmpfile);
-
     if ($success) {
         copy($tmpfile, $files[$index]);
     }
     else {
-        create_warning("Error writing metadata. No changes were made.");
+        my $e = $exiftool->GetValue('Error');
+        create_error("Error writing metadata, no changes were made. $e");
     }
+    unlink $tmpfile;
 
     return;
 }
