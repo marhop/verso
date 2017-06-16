@@ -729,7 +729,7 @@ __END__
 
 =head1 NAME
 
-verso - an (XMP/JPEG) image metadata editor
+verso - editor for embedded image metadata
 
 =head1 SYNOPSIS
 
@@ -737,22 +737,19 @@ B<verso> [options] [file|directory]
 
 =head1 DESCRIPTION
 
-Verso is a tool for editing metadata embedded in image files. Metadata can be
-used for example to describe the image's content and the depicted persons, to
-provide information about the date of its creation and to state its creator
-and any rights/license information.
+Verso is an editor for metadata embedded in image files. Metadata can be used
+to describe, amongst others, the image's content and the depicted persons, to
+provide the date of its creation or to state license information. It can also
+contain technical data like shutter speed and focal length.
 
-Verso's default configuration makes it an editor for
-L<XMP|https://en.wikipedia.org/wiki/Extensible_Metadata_Platform> metadata
-embedded in JPEG files. The metadata fields are structured with the L<Dublin
-Core|http://dublincore.org> elements Description, Date, Creator and Rights.
-
-Since metadata editing is based on L<Phil Harvey's
-ExifTool|http://www.sno.phy.queensu.ca/~phil/exiftool/> and Verso is highly
-configurable you may adjust the metadata elements that can be displayed and
-edited, as long as ExifTool can handle them. So Verso can easily be adapted to
-edit for example IPTC or EXIF instead of (or in addition to) XMP metadata,
-just by messing with the configuration file.
+Verso's default configuration makes it an editor for XMP metadata embedded in
+JPEG files, particularly for the Dublin Core metadata elements Description,
+Date, Creator and Rights. But since metadata editing is based on ExifTool and
+Verso is highly customizable you may adjust the metadata fields that can be
+displayed and edited, as long as ExifTool can handle them. So Verso can easily
+be adapted to edit for example IPTC or EXIF instead of (or in addition to) XMP
+metadata. Metadata fields can be added in the configuration file or on the fly
+via command line options.
 
 =head1 OPTIONS
 
@@ -803,20 +800,18 @@ exiftool(1p)
 
 =head1 WHAT ABOUT THE NAME?
 
-L<Recto and verso|https://en.wikipedia.org/wiki/Recto_and_verso> are the
-"front" and "back" sides of a leaf of paper. The metadata that can be edited
-with Verso is the same one might have written on the back (aka verso) side of
-a photo, back in the olden days of non-digital photography. As you may have
-noticed the application icon tries to reflect this (or would, if it had been
-made by a proper graphics designer).
+Recto and verso are the "front" and "back" sides of a leaf of paper. The
+metadata that can be edited with Verso is the same one might have written on
+the back (aka verso) side of a photo, back in the olden days of non-digital
+photography.
 
 =head1 AUTHOR
 
-Martin Hoppenheit L<http://martin.hoppenheit.info/code/verso>
+Martin Hoppenheit L<https://martin.hoppenheit.info/code/verso/>
 
 =head1 COPYRIGHT
 
-Copyright 2013-2016 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013-2017 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
