@@ -2,7 +2,7 @@
 
 # Verso - an (XMP/JPEG) image metadata editor
 #
-# Copyright 2013-2016 Martin Hoppenheit <martin@hoppenheit.info>
+# Copyright 2013-2017 Martin Hoppenheit <martin@hoppenheit.info>
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
