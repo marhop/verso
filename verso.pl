@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Verso - an (XMP/JPEG) image metadata editor
+# Verso - editor for embedded image metadata
 #
 # Copyright 2013-2017 Martin Hoppenheit <martin@hoppenheit.info>
 #
@@ -496,10 +496,10 @@ sub on_menu_help_about_activate {
     $dialog->set_program_name('Verso');
     # TODO Set version number.
     # $dialog->set_version();
-    $dialog->set_copyright('Copyright 2013-2016 Martin Hoppenheit');
-    $dialog->set_comments('An (XMP/JPEG) image metadata editor.');
+    $dialog->set_copyright('Copyright 2013-2017 Martin Hoppenheit');
+    $dialog->set_comments('editor for embedded image metadata');
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
-    $dialog->set_website('http://martin.hoppenheit.info/code/verso');
+    $dialog->set_website('http://martin.hoppenheit.info/code/verso/');
     my $icon = '/usr/share/icons/hicolor/scalable/apps/verso.svg';
     $dialog->set_logo(Gtk3::Gdk::Pixbuf->new_from_file($icon));
     $dialog->run();
