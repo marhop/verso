@@ -30,16 +30,14 @@ You will need Perl (minimum version 5.10) and the following non-core modules:
   * File::HomeDir
   * List::MoreUtils
 
-To build some icon files you also need Inkscape and ImageMagick. On a usual
-Debian desktop system, the following packages should get you started:
+On a usual Debian desktop system, the following packages should get you
+started:
 
   * libimage-exiftool-perl
   * libgtk3-perl
   * libconfig-general-perl
   * libfile-homedir-perl
   * liblist-moreutils-perl
-  * inkscape (for building only)
-  * imagemagick (for building only)
 
 When these prerequisites are met, download the [program source files from
 GitHub][VersoGitHub]. If you're on Linux/Gnome, run the following command to

@@ -3,7 +3,6 @@ Name=Verso
 Comment=editor for embedded image metadata
 Comment[de]=Editor für eingebettete Bildmetadaten
 Exec=verso %f
-Icon=verso
 Type=Application
 Terminal=false
 Categories=Graphics;
