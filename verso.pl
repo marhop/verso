@@ -27,7 +27,6 @@ use Config::General;
 use Getopt::Long;
 use Pod::Usage;
 use Encode qw(decode);
-use File::HomeDir;
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
@@ -69,9 +68,9 @@ if (defined $opt_config and -e $opt_config) {
     );
 }
 # User specifig config file.
-elsif (-e File::HomeDir->my_home() . '/.verso.conf') {
+elsif (-e "$ENV{HOME}/.verso.conf") {
     $conf = Config::General->new(
-        -ConfigFile => File::HomeDir->my_home(). '/.verso.conf',
+        -ConfigFile => "$ENV{HOME}/.verso.conf",
         -AutoTrue => 1,
     );
 }

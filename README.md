@@ -27,7 +27,6 @@ You will need Perl (minimum version 5.10) and the following non-core modules:
   * Image::ExifTool
   * Gtk3
   * Config::General
-  * File::HomeDir
 
 On a usual Debian desktop system, the following packages should get you
 started:
@@ -35,7 +34,6 @@ started:
   * libimage-exiftool-perl
   * libgtk3-perl
   * libconfig-general-perl
-  * libfile-homedir-perl
 
 When these prerequisites are met, download the [program source files from
 GitHub][VersoGitHub]. If you're on Linux/Gnome, run the following command to
