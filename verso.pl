@@ -32,7 +32,6 @@ use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
 use List::Util qw(min);
-use List::MoreUtils qw(first_index);
 
 
 my $directory;  # full path of current directory (including ending '/')
@@ -560,7 +559,7 @@ sub init_files {
         @files = map { decode 'utf8', $_ }
             grep { ! -d } glob "$directory*.{$ext}";
         if (@files) {
-            $index = -d $path ? 0 : first_index { $_ eq $path } @files;
+            $index = -d $path ? 0 : first_index($path, @files);
         }
         else {
             create_error("No files with extension $ext found in $directory");
@@ -571,6 +570,14 @@ sub init_files {
     }
     # True if there are @files, else false.
     return scalar @files;
+}
+
+sub first_index {
+    my ($string, @strings) = @_;
+    for my $i (0..$#strings) {
+        return $i if $string eq $strings[$i];
+    }
+    return -1;
 }
 
 sub normalize_file_path {
