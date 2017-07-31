@@ -1,4 +1,4 @@
-version = 0.0.0
+app_version = 1.0.0
 sdistfiles = verso.pl verso.conf verso.desktop README.md Makefile LICENSE.txt
 
 bin = $(DESTDIR)/usr/bin/verso
@@ -10,12 +10,12 @@ man = $(DESTDIR)/usr/share/man/man1/verso.1.gz
 all: verso.1.gz
 
 .PHONY: sdist
-sdist: dist/verso-$(version).tar.gz
+sdist: dist/verso-$(app_version).tar.gz
 
-dist/verso-$(version).tar.gz: $(sdistfiles)
-	@mkdir -p dist/verso-$(version)/
-	@cp $^ dist/verso-$(version)/
-	@tar -C dist/ -czf $@ verso-$(version)/
+dist/verso-$(app_version).tar.gz: $(sdistfiles)
+	@mkdir -p dist/verso-$(app_version)/
+	@cp $^ dist/verso-$(app_version)/
+	@tar -C dist/ -czf $@ verso-$(app_version)/
 
 verso.1.gz: verso.pl
 	@pod2man $^ | gzip -9 > $@

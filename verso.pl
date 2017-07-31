@@ -32,12 +32,16 @@ use File::Temp qw(tempfile);
 use File::Copy;
 use List::Util qw(min);
 
+my $app_name        = 'Verso';
+my $app_version     = '1.0.0';
+my $app_description = 'editor for embedded image metadata';
+my $app_copyright   = 'Copyright 2013-2017 Martin Hoppenheit';
+my $app_website     = 'https://martin.hoppenheit.info/code/verso/';
 
 my $directory;  # full path of current directory (including ending '/')
 my @files;      # full paths of all files in the current directory
 my $index;      # index of current file in @files
 my $exiftool = Image::ExifTool->new();
-
 
 ## Command line options. ##
 
@@ -55,7 +59,6 @@ GetOptions(
 );
 
 pod2usage(1) if $opt_help;
-
 
 ## Load config. ##
 
@@ -126,7 +129,6 @@ $config{maximize}     //= 0;
 $config{viewer}       //= 'xdg-open';
 $config{extension}    //= [qw(jpg jpeg JPG JPEG)];
 
-
 ## Build GUI: basic stuff. ##
 
 my $window = Gtk3::Window->new('toplevel');
@@ -137,7 +139,6 @@ $window->signal_connect('delete-event' => sub { Gtk3::main_quit });
 
 my $grid1 = Gtk3::Grid->new();
 $window->add($grid1);
-
 
 ## Build GUI: menubar. Also keyboard shortcuts. ##
 
@@ -305,7 +306,6 @@ $menu_item_help_about->signal_connect(
     'activate' => \&on_menu_help_about_activate
 );
 
-
 ## Build GUI: workspace pt. 1 (general layout, image display). ##
 
 my $paned = Gtk3::Paned->new('GTK_ORIENTATION_VERTICAL');
@@ -331,7 +331,6 @@ $grid2->set_margin_top(10);
 $grid2->set_row_spacing(5);
 $grid2->set_column_spacing(5);
 $paned->pack2($grid2, 0, 0);
-
 
 ## Build GUI: workspace pt. 2 (metadata entry fields). ##
 
@@ -388,7 +387,6 @@ for my $i (0..$#fields) {
     $fields[$i]{'widget'} = $entry;
 }
 
-
 ## Build GUI: workspace pt. 3 (buttons). ##
 
 my $button_line_offset = 1 + scalar @fields;
@@ -419,7 +417,6 @@ if (@ARGV) {
 }
 
 Gtk3::main();
-
 
 ## Menu callback routines. ##
 
@@ -491,18 +488,16 @@ sub on_menu_view_fullscreen_activate {
 sub on_menu_help_about_activate {
     my $dialog = Gtk3::AboutDialog->new();
     $dialog->set_transient_for($window);
-    $dialog->set_program_name('Verso');
-    # TODO Set version number.
-    # $dialog->set_version();
-    $dialog->set_copyright('Copyright 2013-2017 Martin Hoppenheit');
-    $dialog->set_comments('editor for embedded image metadata');
+    $dialog->set_program_name($app_name);
+    $dialog->set_version($app_version);
+    $dialog->set_copyright($app_copyright);
+    $dialog->set_comments($app_description);
     $dialog->set_license_type('GTK_LICENSE_GPL_3_0');
-    $dialog->set_website('http://martin.hoppenheit.info/code/verso/');
+    $dialog->set_website($app_website);
     $dialog->run();
     $dialog->destroy();
     return;
 }
-
 
 ## Button callback routines. ##
 
@@ -541,7 +536,6 @@ sub on_previous_button_clicked {
 
     return;
 }
-
 
 ## Other subroutines. ##
 
