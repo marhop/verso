@@ -585,7 +585,6 @@ sub normalize_file_path {
 }
 
 sub load_current_file {
-    # TODO Error/warning when current file is no image file format?
     load_current_image();
     load_current_metadata();
     $window->set_title(
@@ -596,12 +595,22 @@ sub load_current_file {
 }
 
 sub load_current_image {
-    my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
-    my $pixbuf_rotated = $pixbuf->apply_embedded_orientation();
-    my $max_w = $scrolled->get_allocation()->{width};
-    my $max_h = $scrolled->get_allocation()->{height};
-    my $pixbuf_rotated_scaled = scale_pixbuf($pixbuf_rotated, $max_w, $max_h);
-    $image->set_from_pixbuf($pixbuf_rotated_scaled);
+    eval {
+        my $w = $scrolled->get_allocation()->{width};
+        my $h = $scrolled->get_allocation()->{height};
+        my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file($files[$index]);
+        my $pixbuf_rotated = $pixbuf->apply_embedded_orientation();
+        my $pixbuf_rotated_scaled = scale_pixbuf($pixbuf_rotated, $w, $h);
+        $image->set_from_pixbuf($pixbuf_rotated_scaled);
+    };
+    if ($@) {
+        if (is_unsupported_format_error($@)) {
+            $image->set_from_icon_name('image-missing', 'GTK_ICON_SIZE_DIALOG');
+        }
+        else {
+            die $@;
+        }
+    }
     return;
 }
 
@@ -622,6 +631,11 @@ sub scale_pixbuf {
     }
 
     return $pixbuf;
+}
+
+sub is_unsupported_format_error {
+    my $err = shift;
+    return Glib::Error::matches($err, 'Gtk3::Gdk::PixbufError', 'unknown-type');
 }
 
 sub load_current_metadata {
