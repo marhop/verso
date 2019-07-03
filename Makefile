@@ -1,5 +1,5 @@
-app_version = 1.0.0
-sdistfiles = verso.pl verso.conf verso.desktop README.md Makefile LICENSE.txt
+app_version = 1.1.0
+sdistfiles = verso.pl verso.conf verso.desktop README.md CHANGES.md Makefile LICENSE.txt
 
 bin = $(DESTDIR)/usr/bin/verso
 conf = $(DESTDIR)/etc/verso.conf
