@@ -16,7 +16,9 @@ Verso is highly customizable you may adjust the metadata fields that can be
 displayed and edited, as long as ExifTool can handle them. So Verso can easily
 be adapted to edit for example IPTC or EXIF instead of (or in addition to) XMP
 metadata. Metadata fields can be added in the configuration file or on the fly
-via command line options.
+via command line options. When configured properly, Verso can be used to edit
+metadata of non-image files like MP4 videos or PDF documents as well; it
+displays just a dummy icon for such files though.
 
 Verso is written in Perl and features a Gtk3 GUI.
 
