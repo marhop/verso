@@ -33,7 +33,7 @@ use File::Copy;
 use List::Util qw(min);
 
 my $app_name        = 'Verso';
-my $app_version     = '1.1.0';
+my $app_version     = '1.1.1';
 my $app_description = 'editor for embedded image metadata';
 my $app_copyright   = 'Copyright 2013-2019 Martin Hoppenheit';
 my $app_website     = 'https://martin.hoppenheit.info/code/verso/';

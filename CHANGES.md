@@ -1,3 +1,10 @@
+# Release 1.1.1
+
+2019-07-05
+
+  * Bugfix: Files with different extensions like *.{jpg,tif} are now sorted
+    correctly by file name rather than by extension.
+
 # Release 1.1.0
 
 2019-07-03
