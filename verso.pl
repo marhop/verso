@@ -550,7 +550,7 @@ sub init_files {
         $path = normalize_file_path($path);
         (undef, $directory, undef) = fileparse($path);
         @files = sort map { decode 'utf8', $_ }
-            grep { ! -d } glob "$directory*.{$ext}";
+            grep { ! -d } glob "'$directory'*.{$ext}";
         if (@files) {
             $index = -d $path ? 0 : first_index($path, @files);
         }
