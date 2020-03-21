@@ -359,7 +359,7 @@ push @fields, map { { tag => $_, label => $_} } @opt_fields;
 
 for my $f (@fields) {
     my @tag_parts = split /:/, $f->{tag};
-    $f->{key} = $tag_parts[$#tag_parts];
+    $f->{key} = $tag_parts[-1];
     $f->{widget} = undef;
     if (!exists $f->{tooltip}) {
         $f->{tooltip} = '';
@@ -483,6 +483,7 @@ sub on_menu_view_fullscreen_activate {
     state $fullscreen = 0;
     $fullscreen ? $window->unfullscreen() : $window->fullscreen();
     $fullscreen = !$fullscreen;
+    return;
 }
 
 sub on_menu_help_about_activate {
@@ -684,43 +685,8 @@ sub write_current_metadata {
     return;
 }
 
-sub create_info {
-    my $msg = shift;
-
-    my $dialog = Gtk3::MessageDialog->new(
-        $window,
-        'GTK_DIALOG_DESTROY_WITH_PARENT',
-        'GTK_MESSAGE_INFO',
-        'GTK_BUTTONS_CLOSE',
-        $msg
-    );
-
-    $dialog->run();
-    $dialog->destroy();
-
-    return;
-}
-
-sub create_warning {
-    my $msg = shift;
-
-    my $dialog = Gtk3::MessageDialog->new(
-        $window,
-        'GTK_DIALOG_DESTROY_WITH_PARENT',
-        'GTK_MESSAGE_WARNING',
-        'GTK_BUTTONS_CLOSE',
-        $msg
-    );
-
-    $dialog->run();
-    $dialog->destroy();
-
-    return;
-}
-
 sub create_error {
     my $msg = shift;
-
     my $dialog = Gtk3::MessageDialog->new(
         $window,
         'GTK_DIALOG_DESTROY_WITH_PARENT',
@@ -728,12 +694,9 @@ sub create_error {
         'GTK_BUTTONS_CLOSE',
         $msg
     );
-
     $dialog->run();
     $dialog->destroy();
-
     say $msg;
-
     return;
 }
 
