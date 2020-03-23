@@ -38,9 +38,8 @@ my $app_description = 'editor for embedded image metadata';
 my $app_copyright   = 'Copyright 2013-2019 Martin Hoppenheit';
 my $app_website     = 'https://martin.hoppenheit.info/code/verso/';
 
-my $directory;  # full path of current directory (including ending '/')
-my @files;      # full paths of all files in the current directory
-my $index;      # index of current file in @files
+my @files; # full paths of all files in the current directory
+my $index; # index of current file in @files
 my $exiftool = Image::ExifTool->new();
 
 ## Command line options. ##
@@ -549,7 +548,7 @@ sub init_files {
         ;
     if (-e $path) {
         $path = normalize_file_path($path);
-        (undef, $directory, undef) = fileparse($path);
+        my (undef, $directory, undef) = fileparse($path);
         @files = sort map { decode 'utf8', $_ }
             grep { ! -d } glob "'$directory'*.{$ext}";
         if (@files) {
@@ -588,9 +587,8 @@ sub normalize_file_path {
 sub load_current_file {
     load_current_image();
     load_current_metadata();
-    $window->set_title(
-        basename($files[$index]) . " ($directory) - Verso"
-    );
+    my ($file, $dir, undef) = fileparse($files[$index]);
+    $window->set_title("$file ($dir) - Verso");
     $file_counter_label->set_text($index + 1 . '/' . scalar @files);
     return;
 }
