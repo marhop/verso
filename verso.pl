@@ -376,13 +376,11 @@ for my $i (0..$#fields) {
     $label->set_alignment(0, 0.5);
     $label->set_tooltip_text($fields[$i]{'tooltip'});
     $grid2->attach($label, 1, $i+1, 1, 1);
-
     my $entry = Gtk3::Entry->new();
     $entry->set_hexpand(1);
     $entry->set_editable($fields[$i]{'editable'});
     $entry->set_tooltip_text($fields[$i]{'tooltip'});
     $grid2->attach($entry, 2, $i+1, 4, 1);
-
     $fields[$i]{'widget'} = $entry;
 }
 
@@ -446,7 +444,6 @@ sub on_menu_file_undo_activate {
 
 sub on_menu_file_view_external_activate {
     system "$config{viewer} $files[$index]";
-
     return;
 }
 
@@ -455,7 +452,6 @@ sub on_menu_file_first_activate {
         $index = 0;
         load_current_file();
     }
-
     return;
 }
 
@@ -474,7 +470,6 @@ sub on_menu_file_last_activate {
         $index = $#files;
         load_current_file();
     }
-
     return;
 }
 
@@ -513,27 +508,23 @@ sub on_undo_button_clicked {
 
 sub on_next_button_clicked {
     $index++;
-
     if (scalar @files > $index) {
         load_current_file();
     }
     else {
         $index--;
     }
-
     return;
 }
 
 sub on_previous_button_clicked {
     $index--;
-
     if ($index >= 0) {
         load_current_file();
     }
     else {
         $index++;
     }
-
     return;
 }
 
@@ -617,7 +608,6 @@ sub scale_pixbuf {
     my ($pixbuf, $max_w, $max_h) = @_;
     my $pixb_w = $pixbuf->get_width();
     my $pixb_h = $pixbuf->get_height();
-
     if (($pixb_w > $max_w) || ($pixb_h > $max_h)) {
         my $sc_factor_w = $max_w / $pixb_w;
         my $sc_factor_h = $max_h / $pixb_h;
@@ -628,7 +618,6 @@ sub scale_pixbuf {
         my $scaled = $pixbuf->scale_simple($sc_w, $sc_h, 'GDK_INTERP_HYPER');
         return $scaled;
     }
-
     return $pixbuf;
 }
 
@@ -640,11 +629,9 @@ sub is_unsupported_format_error {
 sub load_current_metadata {
     my @tags = map { $_->{'tag'} } @fields;
     my $info = $exiftool->ImageInfo($files[$index], \@tags);
-
     for my $field (@fields) {
         my $entry_widget = $field->{'widget'};
         my $metadata_key = $field->{'key'};
-
         if (defined $info->{$metadata_key}) {
             my $entry_original_encoding = $info->{$metadata_key};
             my $entry_perl_encoding = decode 'utf8', $entry_original_encoding;
@@ -655,9 +642,7 @@ sub load_current_metadata {
             $entry_widget->set_text('');
         }
     }
-
     $fields[0]{'widget'}->grab_focus();
-
     return;
 }
 
@@ -668,7 +653,6 @@ sub write_current_metadata {
         my $metadata_tag = $field->{'tag'};
         $exiftool->SetNewValue($metadata_tag, $new_value, Replace => 1);
     }
-
     my $tmpfile = File::Temp->new(SUFFIX => '-verso')->filename();
     my $success = $exiftool->WriteInfo($files[$index], $tmpfile);
     if ($success) {
@@ -679,7 +663,6 @@ sub write_current_metadata {
         create_error("Error writing metadata, no changes were made. $e");
     }
     unlink $tmpfile;
-
     return;
 }
 
