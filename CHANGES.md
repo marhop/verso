@@ -1,3 +1,12 @@
+# Release 1.2.0
+
+2020-03-26
+
+  * Verso can now open multiple files in the GUI Open dialog and an arbitrary
+    combination of files and directories in the CLI. In particular this makes
+    file globbing like `$ verso dir/*.jpg` possible.
+  * Bugfix: File paths with spaces in the directory part can now be opened.
+
 # Release 1.1.1
 
 2019-07-05

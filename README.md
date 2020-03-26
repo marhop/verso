@@ -24,18 +24,18 @@ Verso is written in Perl and features a Gtk3 GUI.
 
 ## Installation
 
+Debian and Arch Linux packages are available [here][Verso]. If that does not fit
+your needs, read on.
+
 You will need Perl (minimum version 5.10) and the following non-core modules:
 
   * Image::ExifTool
   * Gtk3
   * Config::General
 
-On a usual Debian desktop system, the following packages should get you
-started:
+On a usual Debian desktop system, the following should get you started:
 
-  * libimage-exiftool-perl
-  * libgtk3-perl
-  * libconfig-general-perl
+    # apt install libimage-exiftool-perl libgtk3-perl libconfig-general-perl
 
 When these prerequisites are met, download the [program source files from
 GitHub][VersoGitHub]. If you're on Linux/Gnome, run the following command to
@@ -59,7 +59,7 @@ The project website is [here][Verso]. The source code can be found on
 
 ## License
 
-Copyright 2013-2019 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013-2020 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

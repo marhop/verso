@@ -2,7 +2,7 @@
 
 # Verso - editor for embedded image metadata
 #
-# Copyright 2013-2019 Martin Hoppenheit <martin@hoppenheit.info>
+# Copyright 2013-2020 Martin Hoppenheit <martin@hoppenheit.info>
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -33,9 +33,9 @@ use File::Copy;
 use List::Util qw(min any);
 
 my $app_name        = 'Verso';
-my $app_version     = '1.1.1';
+my $app_version     = '1.2.0';
 my $app_description = 'editor for embedded image metadata';
-my $app_copyright   = 'Copyright 2013-2019 Martin Hoppenheit';
+my $app_copyright   = 'Copyright 2013-2020 Martin Hoppenheit';
 my $app_website     = 'https://martin.hoppenheit.info/code/verso/';
 
 my @files; # full paths of all files to be displayed
@@ -788,7 +788,7 @@ Martin Hoppenheit L<https://martin.hoppenheit.info/code/verso/>
 
 =head1 COPYRIGHT
 
-Copyright 2013-2019 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013-2020 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
