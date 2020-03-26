@@ -30,7 +30,7 @@ use Encode qw(decode);
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
-use List::Util qw(min);
+use List::Util qw(min any);
 
 my $app_name        = 'Verso';
 my $app_version     = '1.1.1';
@@ -38,7 +38,7 @@ my $app_description = 'editor for embedded image metadata';
 my $app_copyright   = 'Copyright 2013-2019 Martin Hoppenheit';
 my $app_website     = 'https://martin.hoppenheit.info/code/verso/';
 
-my @files; # full paths of all files in the current directory
+my @files; # full paths of all files to be displayed
 my $index; # index of current file in @files
 my $exiftool = Image::ExifTool->new();
 
@@ -126,7 +126,7 @@ $config{windowwidth}  //= 500;
 $config{windowheight} //= 500;
 $config{maximize}     //= 0;
 $config{viewer}       //= 'xdg-open';
-$config{extension}    //= [qw(jpg jpeg JPG JPEG)];
+$config{extension}    //= ['*'];
 
 ## Build GUI: basic stuff. ##
 
@@ -410,7 +410,7 @@ $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
 $window->show_all();
 
 if (@ARGV) {
-    init_files(shift) and load_current_file();
+    init_files(@ARGV) and load_current_file();
 }
 
 Gtk3::main();
@@ -425,8 +425,9 @@ sub on_menu_file_open_activate {
         Gtk3::STOCK_CANCEL, 'GTK_RESPONSE_CANCEL',
         Gtk3::STOCK_OPEN, 'GTK_RESPONSE_ACCEPT'
     );
+    $dialog->set_select_multiple(1);
     if ($dialog->run() eq 'accept') {
-        init_files($dialog->get_filename()) and load_current_file();
+        init_files(@{$dialog->get_filenames()}) and load_current_file();
     }
     $dialog->destroy();
     return;
@@ -531,29 +532,47 @@ sub on_previous_button_clicked {
 ## Other subroutines. ##
 
 sub init_files {
-    my $path = decode 'utf8', shift;
-    state $ext
-        = ref $config{extension} eq 'ARRAY'
-        ? join ',', @{$config{extension}}
-        : $config{extension}
-        ;
-    if (-e $path) {
-        $path = normalize_file_path($path);
-        my (undef, $directory, undef) = fileparse($path);
-        @files = sort map { decode 'utf8', $_ }
-            grep { ! -d } glob "'$directory'*.{$ext}";
-        if (@files) {
-            $index = -d $path ? 0 : first_index($path, @files);
-        }
-        else {
-            create_error("No files with extension $ext found in $directory");
-        }
+    my @paths = map { normalize_file_path($_) } @_;
+    @files = ();
+    $index = 0;
+    if (scalar @paths == 1 and -e -f -r $paths[0]) {
+        my (undef, $directory, undef) = fileparse($paths[0]);
+        init_files($directory);
+        my $i = first_index($paths[0], @files);
+        $index = $i != -1 ? $i : 0;
     }
     else {
-        create_error("Could not find file $path");
+        for my $path (@paths) {
+            if (!(-e -r $path)) {
+                create_error("Could not open '$path'");
+                next;
+            }
+            if (-f $path) {
+                push @files, $path;
+            }
+            if (-d $path) {
+                push @files,
+                    sort
+                    map { normalize_file_path($_) }
+                    grep { -f }
+                    glob "'$path'*";
+            }
+        }
     }
+    @files = grep { allowed_extension($_) } @files;
     # True if there are @files, else false.
     return scalar @files;
+}
+
+sub allowed_extension {
+    my $file = shift;
+    my (undef, undef, $suffix) = fileparse($file, qr/[^.]*$/);
+    state @extensions
+        = ref $config{extension} eq 'ARRAY'
+        ? @{$config{extension}}
+        : ($config{extension})
+        ;
+    return any { $_ eq $suffix || $_ eq '*' } @extensions;
 }
 
 sub first_index {
@@ -565,7 +584,7 @@ sub first_index {
 }
 
 sub normalize_file_path {
-    my $path = shift;
+    my $path = decode 'utf8', shift;
     # Prepend './' to simple file names without full path, otherwise the
     # first_index function won't work correctly with globbed files.
     $path =~ s{^(?!(/|\./|\.\./|\.$))}{./};
@@ -689,7 +708,7 @@ verso - editor for embedded image metadata
 
 =head1 SYNOPSIS
 
-B<verso> [options] [file|directory]
+B<verso> [options] [file|directory ...]
 
 =head1 DESCRIPTION
 
