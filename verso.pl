@@ -26,7 +26,7 @@ use Gtk3 -init;
 use Config::General;
 use Getopt::Long;
 use Pod::Usage;
-use Encode qw(decode);
+use Encode qw(decode encode);
 use File::Basename;
 use File::Temp qw(tempfile);
 use File::Copy;
@@ -537,7 +537,11 @@ sub init_files {
     $index = 0;
     if (scalar @paths == 1 and -e -f -r $paths[0]) {
         my (undef, $directory, undef) = fileparse($paths[0]);
-        init_files($directory);
+        # Encode directory name as UTF-8 because this is what the
+        # normalize_file_path function expects. Otherwise we would decode twice,
+        # yielding false results. However, this is most probably a terrible
+        # solution.
+        init_files(encode 'utf8', $directory);
         my $i = first_index($paths[0], @files);
         $index = $i != -1 ? $i : 0;
     }
