@@ -410,7 +410,7 @@ $grid2->attach($next_button, 5, $button_line_offset, 1, 1);
 $window->show_all();
 
 if (@ARGV) {
-    init_files(@ARGV) and load_current_file();
+    init_files(map { decode 'UTF-8', $_ } @ARGV) and load_current_file();
 }
 
 Gtk3::main();
@@ -537,11 +537,7 @@ sub init_files {
     $index = 0;
     if (scalar @paths == 1 and -e -f -r $paths[0]) {
         my (undef, $directory, undef) = fileparse($paths[0]);
-        # Encode directory name as UTF-8 because this is what the
-        # normalize_file_path function expects. Otherwise we would decode twice,
-        # yielding false results. However, this is most probably a terrible
-        # solution.
-        init_files(encode 'utf8', $directory);
+        init_files($directory);
         my $i = first_index($paths[0], @files);
         $index = $i != -1 ? $i : 0;
     }
@@ -557,7 +553,7 @@ sub init_files {
             if (-d $path) {
                 push @files,
                     sort
-                    map { normalize_file_path($_) }
+                    map { normalize_file_path(decode 'UTF-8', $_) }
                     grep { -f }
                     glob "'$path'*";
             }
@@ -588,7 +584,7 @@ sub first_index {
 }
 
 sub normalize_file_path {
-    my $path = decode 'utf8', shift;
+    my $path = shift;
     # Prepend './' to simple file names without full path, otherwise the
     # first_index function won't work correctly with globbed files.
     $path =~ s{^(?!(/|\./|\.\./|\.$))}{./};
@@ -656,10 +652,7 @@ sub load_current_metadata {
         my $entry_widget = $field->{'widget'};
         my $metadata_key = $field->{'key'};
         if (defined $info->{$metadata_key}) {
-            my $entry_original_encoding = $info->{$metadata_key};
-            my $entry_perl_encoding = decode 'utf8', $entry_original_encoding;
-            
-            $entry_widget->set_text($entry_perl_encoding);
+            $entry_widget->set_text(decode 'UTF-8', $info->{$metadata_key});
         }
         else {
             $entry_widget->set_text('');
@@ -700,7 +693,7 @@ sub create_error {
     );
     $dialog->run();
     $dialog->destroy();
-    say $msg;
+    say(encode 'UTF-8', $msg);
     return;
 }
 
