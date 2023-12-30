@@ -59,7 +59,7 @@ The project website is [here][Verso]. The source code can be found on
 
 ## License
 
-Copyright 2013-2020 Martin Hoppenheit <martin@hoppenheit.info>
+Copyright 2013-2023 Martin Hoppenheit <martin@hoppenheit.info>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
